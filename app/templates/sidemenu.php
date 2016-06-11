@@ -15,11 +15,12 @@
                 <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i>Election Event<i class="fa fa-fw fa-caret-down"></i></a>
                 <ul id="demo" class="collapse">
                     <li>
-                        <a href="#">Create Event</a>
+                        <a href="../view/electionList.php">View Elections</a>
                     </li>
                     <li>
-                        <a href="#">Add Members</a>
+                        <a href="../view/electionInterface.php">Create Election</a>
                     </li>
+
                 </ul>
             </li>
             <li>
