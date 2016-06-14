@@ -164,3 +164,19 @@ fieldset[disabled] .btn-default.focus {
 .error{
     color: #ffffff !important;
 }
+
+.signup-success{
+    text-align: center;
+}
+
+.signup-success h3 {
+    color: #f6d224;
+}
+
+.head-text{
+    text-align: center;
+}
+
+.head-text strong{
+    color: #f6d224;
+}

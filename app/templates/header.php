@@ -28,9 +28,17 @@
     <![endif]-->
 
     <!-- jQuery -->
-    <script src="<?php echo SCRIPT_ROOT ?>/public/js/jquery.js"></script>
-    <script src="<?php echo SCRIPT_ROOT ?>/public/js/jquery.min.js"></script>
-    <script src="<?php echo SCRIPT_ROOT ?>/public/js/jquery.validate.js"></script>
+    <script rel="script" type="text/javascript" src="<?php echo SCRIPT_ROOT ?>/public/js/jquery-1.11.3.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+
+    <!--<script src="<?php /*SCRIPT_ROOT */?>/public/js/jquery.js"></script>-->
+    <!--<script src="<?php /*SCRIPT_ROOT */?>/public/js/jquery.min.js"></script>-->
+    <!--<script src="<?php /*SCRIPT_ROOT */?>/public/js/jquery.validate.js"></script>-->
+    <!--<script src="<?php /*echo SCRIPT_ROOT */?>/public/js/jquery.ba-resize.min.js" rel="script" type="text/javascript"></script>-->
+
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.min.js"></script>
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.js"></script>

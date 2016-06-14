@@ -93,31 +93,20 @@ $().ready(function(){
             m_data.append( 'confirmpwd',  document.getElementById("confirmpwd").value);
             // Ajax post data to server
             $.ajax({
-
+                type: "POST",
                 url: '../../app/controller/member_signup.php',
-                data: m_data,
-                processData: false,
-                contentType: false,
-                type: 'POST',
-                dataType:'json',
-                success: function(response) {
-                    var obj = jQuery.parseJSON(m_data);
-                    alert(obj.cenas);
-                    //load json data from server and output message
-                    /*if (response.type == "text"){
-                     //$("#signup-success-text").html(response.text);
-                     $("#signup-form").slideUp("slow",function(){
-                     $("#signup-success").removeClass("hidden",function(){
-                     $("#signup-success").fadeIn(600);
-                     });
-                     });
+                data: $("#signupform").serialize(), // serializes the form's elements.
+                success: function(data)
+                {
 
-
-                     }else{
-                     $("#signup-success").html(response.text);
-                     }*/
+                        $("#signupform").slideUp("slow",function(){
+                            $("#signup-success").removeClass("hidden",function(){
+                                $("#signup-success").fadeIn(600);
+                            });
+                        });
 
                 }
+
             });
         }
 
