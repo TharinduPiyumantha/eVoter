@@ -33,6 +33,7 @@
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/jquery.validate.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.min.js"></script>
+    <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.js"></script>
 
 
 

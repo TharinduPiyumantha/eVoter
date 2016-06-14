@@ -1,5 +1,5 @@
 <?php include "../templates/header.php";?>
-<script src="../../public/js/signup.js"></script>
+<!--<script src="../../public/js/signup.js"></script>-->
 
 </head>
 
@@ -7,7 +7,6 @@
 <div class="col-lg-12"">
         <div class="col-lg-6" style="border-color: #f6d224;height:100%;">
         </div>
-
 <div class="signup-success hidden col-lg-8 col-md-8 col-sm-8 col-lg-offset-2" id="signup-success">
     <h3>Thank You....!</h3>
     <p>You have registered successfully. Please wait for the administration confirmation. You will get a mail with login details.
@@ -17,7 +16,7 @@
 
         <div class="col-lg-6" id="signup-form" style="background-color:#004580;border-color: #f6d224;height:100%;">
             <h2 style="color: #ffffff;text-align: center;">Registration Form</h2>
-            <form class="form-horizontal" id="signupform" name="signupform" action="../controller/member_signup.php" role="form" method="POST" style="margin-top: 30px;margin-right: 40px;">
+            <form class="form-horizontal" id="signupform" name="signupform" action="" role="form" method="post" style="margin-top: 30px;margin-right: 40px;">
                 <div class="form-group" >
                     <label class="col-sm-4 control-label" style="color: #ffffff;">Full Name :</label>
                     <div class="col-sm-8">
@@ -92,4 +91,41 @@
     </div>
 </body>
 
+
+<script>
+    $('#btn-signup').click(function(){
+        //alert('ffff');
+        test();
+    });
+    function test(){
+        var t = 3;
+        $.ajax({
+            url: 't.php',
+            data: t,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            dataType:'json',
+            success: function(response) {
+                var obj = jQuery.parseJSON(response);
+                console.log(obj);
+                //load json data from server and output message
+                /*if (response.type == "text"){
+                 //$("#signup-success-text").html(response.text);
+                 $("#signup-form").slideUp("slow",function(){
+                 $("#signup-success").removeClass("hidden",function(){
+                 $("#signup-success").fadeIn(600);
+                 });
+                 });
+
+
+                 }else{
+                 $("#signup-success").html(response.text);
+                 }*/
+
+            }
+        });
+    }
+
+</script>
 </html>

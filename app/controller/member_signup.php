@@ -11,7 +11,9 @@ require_once '../model/dbConfig.php';
 
 if($_POST){
 
-    $img = "#";
+    echo "hiiiiiii";
+
+    /*$img = "#";
     $status = "1";
     $fname		= filter_var($_POST["fname"], FILTER_SANITIZE_STRING);
     $mid		= filter_var($_POST["mid"], FILTER_SANITIZE_STRING);
@@ -33,7 +35,6 @@ VALUES ('$mid','$fname','$nic','$email','$mobile','$clubpost','$doj','$img','$st
         echo "Error: " . $sql . "<br>" . $con->error;
     }
 
-    $con->close();
-
+    $con->close();*/
 }
 ?>

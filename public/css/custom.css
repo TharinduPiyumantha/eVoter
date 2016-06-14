@@ -160,3 +160,7 @@ fieldset[disabled] .btn-default.focus {
     background-color:#004580;
     border-color:#f6d224;
 }
+
+.error{
+    color: #ffffff !important;
+}
