@@ -1086,7 +1086,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 input,
 button,
@@ -2582,7 +2582,7 @@ output {
 .form-control::-webkit-input-placeholder {
   color: #999;
 }
-.form-control::-ms-expand {
+.form-control:-ms-expand {
   background-color: transparent;
   border: 0;
 }

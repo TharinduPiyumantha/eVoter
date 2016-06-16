@@ -8,10 +8,10 @@
         <div class="col-lg-6" style="border-color: #f6d224;height:100%;">
         </div>
 
-    <div class="col-lg-6" style="background-color:#004580;border-color: #f6d224;height:100%;">
+    <div class="col-lg-6 fill-height" style="background-color:#004580;border-color: #f6d224;height:100%;">
 
         <div class="head-text"><h4 style="color:#f6d224;font-size: 30px;"><strong>WELCOME</strong></h4>
-            <span><p style="color:#f6d224;">Note :- All fields are required</p></span>
+            <span><p style="color:#f6d224;">All fields are required</p></span>
             <div id="contact_results"></div>
         </div>
 
@@ -22,7 +22,7 @@
             <a href="index.php" style="color:#ffffff;">CLICK here</a> to log</p>
 </div>
 
-        <div id="signup-form" style="background-color:#004580;border-color: #f6d224;height:100%;">
+        <div id="signup-form">
             <form class="form-horizontal" id="signupform" name="signupform" action="" role="form" method="post" style="margin-top: 30px;margin-right: 40px;">
                 <div class="form-group" >
                     <label class="col-sm-4 control-label" style="color: #ffffff;">Full Name :</label>

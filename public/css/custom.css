@@ -1,3 +1,13 @@
+html, body {
+    height: 100%;
+    background-color: #ffffff; !important;
+}
+.fill-height {
+    min-height:100%;
+    height:auto !important; /* cross-browser */
+    height: 100%; /* cross-browser */
+}
+
 .color-change{
     background-color: #004580;
     border-color: #f6d224;

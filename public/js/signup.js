@@ -4,6 +4,7 @@
 
 $().ready(function(){
     $('#btn-signup').click(function(){
+
     $("#signupform").validate({
         rules:{
             fname:{
@@ -111,6 +112,7 @@ $().ready(function(){
         }
 
     });
+        $("#signup-form").css({"height":"235%"});
     });
 });
 
