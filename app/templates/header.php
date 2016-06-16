@@ -42,6 +42,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.min.js"></script>
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.js"></script>
+    <script src="<?php echo SCRIPT_ROOT ?>/public/js/custom.js"></script>
 
 
 

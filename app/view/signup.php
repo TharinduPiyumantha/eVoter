@@ -5,7 +5,7 @@
 
 <body style="background-color:#ffffff;margin-top: -0px;">
 <div class="col-lg-12"">
-        <div class="col-lg-6" style="border-color: #f6d224;height:100%;">
+        <div class="col-lg-6 " style="border-color: #f6d224;height:100%;">
         </div>
 
     <div class="col-lg-6 fill-height" style="background-color:#004580;border-color: #f6d224;height:100%;">
@@ -19,10 +19,10 @@
         style="color:#000000;">
             <h3>Thank You....!</h3>
              <p style="color:#f6d224;">You have registered successfully. Please wait for the administration confirmation. You will get a mail with login details.
-            <a href="index.php" style="color:#ffffff;">CLICK here</a> to log</p>
+            <a href="home.php" style="color:#ffffff;">CLICK here</a> to log</p>
 </div>
 
-        <div id="signup-form">
+        <div id="signup-form" class="fill-height">
             <form class="form-horizontal" id="signupform" name="signupform" action="" role="form" method="post" style="margin-top: 30px;margin-right: 40px;">
                 <div class="form-group" >
                     <label class="col-sm-4 control-label" style="color: #ffffff;">Full Name :</label>

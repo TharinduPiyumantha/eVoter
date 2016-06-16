@@ -12,7 +12,8 @@ require_once '../model/dbConfig.php';
 if($_POST){
 
     $img = "#";
-    $status = "1";
+    $status = "0";
+    //$secure_Quiz = 0;
     $fname		= filter_var($_POST["fname"], FILTER_SANITIZE_STRING);
     $mid		= filter_var($_POST["mid"], FILTER_SANITIZE_STRING);
     $nic	= filter_var($_POST["nic"], FILTER_SANITIZE_STRING);
