@@ -5,7 +5,11 @@
  * Date: 16/06/2016
  * Time: 11:52
  */
- include "../templates/header.php";?>
+ include "../templates/header.php";
+ include "../controller/userRequest.php";
+
+?>
+<script src="../../public/js/userRequest.js"></script>
 
 <body>
 
@@ -44,7 +48,7 @@
                                     <i class="fa fa-envelope fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">16</div>
+                                    <div class="huge" id="message">16</div>
                                     <div>New Messages</div>
                                 </div>
                             </div>
@@ -88,7 +92,7 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">5</div>
+                                    <div class="huge"><?php echo "$new_requests"?></div>
                                     <div>Member Requests</div>
                                 </div>
                             </div>
@@ -110,7 +114,7 @@
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
+                                    <div class="huge">10</div>
                                     <div>Support Members</div>
                                 </div>
                             </div>
@@ -168,7 +172,7 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
+                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>News Feed</h3>
                         </div>
                         <div class="panel-body">
                             <div class="list-group">

@@ -58,8 +58,15 @@
 
     <div id="page-wrapper">
 
-        <div class="container">
-            <h2>Create Election</h2>
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Create Election </h1>
+                </div>
+            </div>
+
             <form class="form-horizontal" role="form" method="post" action="../controller/addCandidates.php?electID=<?php echo $_GET["electID"];?>">
                 <div class="container">
                     <label class="control-label col-sm-2" for="addCandidates">Add Candidates:</label>
@@ -68,7 +75,7 @@
 
                     <INPUT type="button" id="remove" value="Delete Row" onClick="deleteRow('dataTable')" /> <br><br>
 
-                    <table width="83%" border="1" align="center" class="table-striped" id="tableCommon">
+                    <table class="table" id="tableCommon" style="margin-top: 20px">
                         <thead>
                         <tr>
                             <th width="5%" scope="col"></th>
@@ -84,10 +91,8 @@
                     </table>
                 </div>
                 <br><br>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="addCandidatesBtn" value="Next>>>"/>
-                    </div>
+                <<div class="col-sm-6 col-sm-offset-11 controls">
+                    <input class="btn btn-default btn-primary" name="submit" type="submit" id="addCandidatesBtn" value="Next>>>"/>
                 </div>
                 </form>
         </div>

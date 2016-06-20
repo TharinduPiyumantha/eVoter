@@ -190,3 +190,7 @@ fieldset[disabled] .btn-default.focus {
 .head-text strong{
     color: #f6d224;
 }
+
+.election{
+    margin-top: 30px;
+}

@@ -40,8 +40,15 @@ require_once("../model/DB.php");
 
     <div id="page-wrapper">
 
-        <div class="container">
-            <h1>Select Voters :</h1><br><br>
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Select Voting Members </h1>
+                </div>
+            </div>
+
             <form class="form-horizontal" role="form" method="post" action="../controller/addVoters.php?electID=<?php echo $_GET["electID"];?>">
                 <input type="checkbox" onClick="toggle(this)" /> Select All<br/><br/>
             <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">

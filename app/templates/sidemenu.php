@@ -24,7 +24,7 @@
                 </ul>
             </li>
             <li>
-                <a href="blank-page.html"><i class="fa fa-fw fa-file"></i>User Pages</a>
+                <a href="blank-page.html"><i class="fa fa-fw fa-file"></i>Member Manage</a>
             </li>
         </ul>
     </div>

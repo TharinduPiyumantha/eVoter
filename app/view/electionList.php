@@ -39,8 +39,14 @@ require_once("../model/DB.php");
 
     <div id="page-wrapper">
 
-        <div class="container">
-            <h2>Elections List</h2>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Elections List </h1>
+                </div>
+            </div>
+
             <table id="electionTable" class="table">
                 <thead>
                 <tr>
