@@ -86,9 +86,9 @@ require_once("../model/DB.php");
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[1] ?></td>
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[2] ?></td>
                         <input type="hidden" name="member[0][clubPost]" value="<?php echo $data1[2] ?>"/>
+                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[3] ?></td>
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[4] ?></td>
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[5] ?></td>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[6] ?></td>
                     <?php } ?>
                 </tbody>
             </table><br><br>

@@ -65,7 +65,7 @@ require_once("../model/DB.php");
                         while($data1 = $electionList -> fetch_row()){
                     ?>
                 <script> var id = <?php echo(json_encode($data1[0])); ?>;</script>
-                <tr class="tableRow" id = <?php echo $data1[0] ?> href="viewElectionDetails.php?id=<?php echo $data1[0]?>">
+                <tr class="tableRow" id = <?php echo $data1[0] ?> href="viewElectionDetails.php?electID=<?php echo $data1[0]?>">
                     <td class="tableData" ><?php echo $data1[1] ?></td>
                     <td class="tableData" ><?php echo $data1[2] ?></td>
                     <td class="tableData" ><?php echo $data1[3] ?></td>

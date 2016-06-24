@@ -31,7 +31,7 @@ class Sql
 
     }
     public function selectMembersForElection($connect){
-        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,occupation,dateofjoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
+        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
         return $queryToSelectMembersForElection;
     }
     public function changeMemberStatus($connect,$status,$memberID){
@@ -52,6 +52,20 @@ class Sql
     public function loadAllElectionsWithDetails($connect){
         $queryToloadAllElectionsWithDetails = mysqli_query($connect, "SELECT electionID,electionName,date,startTime,endTime,electionStatus FROM election");
         return $queryToloadAllElectionsWithDetails;
+    }
+    public function getMemberDetailsOfElection($connect,$electionID){
+        $queryToGetMemDetails = mysqli_query($connect,"SELECT name,candidate.memberID,candidateNo,symbolImage from clubmember,candidate where clubmember.memberID=candidate.memberID AND candidate.electionID='$electionID'");
+        return $queryToGetMemDetails;
+    }
+    public function getVoterDetailForElection($connect,$electionID){
+        $queryToGetVoterDetails = mysqli_query($connect,"SELECT memberelectiondetails.memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember,memberelectiondetails where clubmember.memberID=memberelectiondetails.memberID AND memberelectiondetails.electionID='$electionID'");
+        return $queryToGetVoterDetails;
+    }
+    public function updateElectionDetails($connect,$elecName,$date,$sTime,$eTime,$votes,$electID){
+        $queryToUpdateElectionDetails = mysqli_query($connect, "update election set electionName='$elecName',date='$date',startTime='$sTime',endTime='$eTime',noOfVotesPerPerson='$votes' where electionID='$electID'");
+    }
+    public function deleteCandidateRow($connect,$electionID,$memberID){
+        $queryToDeleteCandidates = mysqli_query($connect,"DELETE FROM candidate WHERE electionID='$electionID' AND memberID='$memberID'");
     }
 
 

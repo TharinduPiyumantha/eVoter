@@ -120,6 +120,16 @@ class Election{
     public function getElectionList($connection){
         return (new Sql)->loadAllElectionsWithDetails($connection);
     }
+    public function getCandidateDetails($connection,$electionID){
+        return (new Sql)->getMemberDetailsOfElection($connection,$electionID);
+    }
+    public function getVoterDetails($connection,$electionID){
+        return (new Sql)->getVoterDetailForElection($connection,$electionID);
+    }
+    public function updateElectionDetails($connection,$elecName,$date,$sTime,$eTime,$votes,$electionID){
+        return (new Sql)->updateElectionDetails($connection,$elecName,$date,$sTime,$eTime,$votes,$electionID);
+
+    }
 
 }
 ?>
