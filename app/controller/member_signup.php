@@ -12,7 +12,7 @@ require_once '../model/dbConfig.php';
 if($_POST){
 
     $img = "#";
-    $status = "0";
+    $status = "not-registered";
     //$secure_Quiz = 0;
     $fname		= filter_var($_POST["fname"], FILTER_SANITIZE_STRING);
     $mid		= filter_var($_POST["mid"], FILTER_SANITIZE_STRING);
@@ -25,8 +25,8 @@ if($_POST){
     $confirmpwd	= filter_var($_POST["confirmpwd"], FILTER_SANITIZE_STRING);
 
 
-    $sql = "INSERT INTO clubmember (memberID,member_name,NIC,email,mobileNumber,clubPost,dateOfJoin,profileImage,status,username,password)
-VALUES ('$mid','$fname','$nic','$email','$mobile','$clubpost','$doj','$img','$status','$username','$confirmpwd')";
+    $sql = "INSERT INTO clubmember (memberID,name,NIC,email,mobileNumber,clubPost,profileImage,status,dateofjoin,username,password)
+VALUES ('$mid','$fname','$nic','$email','$mobile','$clubpost','$img','$status','$doj','$username','$confirmpwd')";
 
     if ($con->query($sql) === TRUE) {
         echo "New record created successfully";

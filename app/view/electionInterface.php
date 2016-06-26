@@ -52,7 +52,6 @@
             </div>
         </div>
         <br><br>
-
             <div class="col-sm-6 col-sm-offset-11 controls" >
                 <input name="submit" class="btn btn-default btn-primary" type="submit" id="evaluationCriteriaSaveBtn" value="Next >>"/>
             </div>

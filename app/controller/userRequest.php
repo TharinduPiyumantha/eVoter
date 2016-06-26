@@ -8,7 +8,7 @@
 
 require_once '../model/dbConfig.php';
 
-$sql="SELECT * FROM clubmember where status = '0'";
+$sql="SELECT * FROM clubmember where status = 'not-registered'";
 $result = mysqli_query($con,$sql);
 $new_requests = mysqli_num_rows($result);
 

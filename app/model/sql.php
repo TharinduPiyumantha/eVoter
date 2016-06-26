@@ -31,7 +31,7 @@ class Sql
 
     }
     public function selectMembersForElection($connect){
-        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,occupation,dateofjoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
+        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateOfJoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
         return $queryToSelectMembersForElection;
     }
     public function changeMemberStatus($connect,$status,$memberID){
