@@ -86,8 +86,9 @@ if(isset($_GET["electID"])){
 
             <form class="form-horizontal" role="form" method="post" action="../view/viewElectionDetails.php?electID=<?php echo $electionID;?>">
                 <label class="control-label col-sm-2" for="addCandidates">Selected Voters:</label><br>
-                <INPUT type="button" id="remove" value="Remove Voters" onClick="deleteRow('dataTable')" />
-                <INPUT type="button" id="add" value="Add New Voters" onClick="location.href = 'addNewVoters.php?electID=<?php echo $electionID;?>'" />
+                <INPUT type="button" id="remove" value="Remove Voters" class="btn btn-default btn-primary" onClick="deleteRow('dataTable')" style="margin-top: -20;"/>
+                <INPUT type="button" id="add" value="Add New Voters" class="btn btn-default btn-primary" onClick="location.href = 'addNewVoters.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/> <br><br>
+
                 <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                     <thead>
                     <tr>
@@ -132,7 +133,7 @@ if(isset($_GET["electID"])){
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="addVotersBtn" value="Next>>>"/>
+                        <input name="submit" type="submit" id="addVotersBtn" class="btn btn-default btn-primary" value="Next>>>"/>
                     </div>
                 </div>
             </form>

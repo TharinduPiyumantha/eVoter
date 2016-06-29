@@ -78,7 +78,7 @@ $row = mysqli_fetch_row($queryData);
                 </div>
             </form>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <h2>Candidates Details</h2>
             <table class="table table-bordered" style="align-content: center">
                 <thead>
@@ -110,7 +110,7 @@ $row = mysqli_fetch_row($queryData);
                 </tbody>
             </table>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <h2>Voters Details</h2>
             <table class="table table-bordered">
                 <thead>
@@ -142,10 +142,15 @@ $row = mysqli_fetch_row($queryData);
 
                 </tbody>
             </table>
-        </div>
+        </div><br>
+
+        <div class="form-group">
+            <div class="col-sm-offset-9 col-sm-4">
         <input type="button" value="Edit" class="btn btn-default" id="editElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $electionID;?>'" />
         <input type="button" value="Delete" class="btn btn-default" id="deleteElection" onClick="deleteElection('<?php echo $electionID ?>')" />
         <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
+                </div></div>
+
     </div>
 </div>
 

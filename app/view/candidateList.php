@@ -29,7 +29,15 @@ $connection = $db->connectToDatabase();
     </nav>
     <div id="page-wrapper">
         <div class="container-fluid">
-            <h2>Candidate Details</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Candidate Details </h1>
+                </div>
+            </div>
+
+            <br>
             <form class="form-horizontal" role="form" method="post" action="../controller/uploadPartyImage.php?electID=<?php echo $electionID ?>" enctype="multipart/form-data">
                 <table class="table table-striped">
                     <thead>

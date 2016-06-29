@@ -32,7 +32,15 @@ $row = mysqli_fetch_row($queryData);
 
     <div id="page-wrapper">
         <div class="container-fluid">
-            <h2>Edit Election</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Edit Election </h1>
+                </div>
+            </div>
+            <br>
+
             <form class="form-horizontal" role="form" method="post" action="../controller/editElectionDetails.php?electID=<?php echo $electionID;?>">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="name">Election Name:</label>
@@ -65,7 +73,7 @@ $row = mysqli_fetch_row($queryData);
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-10 col-sm-2">
                         <input name="submit" type="submit" id="electionDetailEdit" class="btn btn-default btn-primary" value="Next>>>"/>
                     </div>
                 </div>

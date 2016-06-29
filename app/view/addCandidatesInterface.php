@@ -91,12 +91,12 @@ require_once("../model/DB_1.php");
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[5] ?></td>
                         <?php } ?>
                     </tbody>
-                </table><br><br>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                </table><br>
+
+                    <div class="col-sm-offset-10 col-sm-2" >
                         <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
                     </div>
-                </div>
+
             </form>
         </div>
     </div>

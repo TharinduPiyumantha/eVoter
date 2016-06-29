@@ -82,14 +82,22 @@ $election = new Election();
     <div id="page-wrapper">
 
         <div class="container-fluid">
-            <h2>Edit Election</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Edit Election </h1>
+                </div>
+            </div>
+            <br>
+
             <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>">
-                <div class="container">
-                    <label class="control-label col-sm-2" for="addCandidates">Selected Candidates:</label><br>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="addCandidates">Selected Candidates:</label><br>
 
-                    <INPUT type="button" id="add" value="Add More Candidates"  class="btn btn-default btn-primary" onClick="location.href = 'addNewCandidates.php?electID=<?php echo $electionID;?>'" />
+                    <input type="button" id="add" value="Add More Candidates"  class="btn btn-default btn-primary" onClick="location.href = 'addNewCandidates.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/>
 
-                    <INPUT type="button" id="remove" value="Remove Candidates" class="btn btn-default btn-primary"  onClick="deleteRow('dataTable')" /> <br><br>
+                    <input type="button" id="remove" value="Remove Candidates" class="btn btn-default btn-primary"  onClick="deleteRow('dataTable')" style="margin-top: -20;"/> <br><br>
 
                     <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                         <thead>
@@ -128,7 +136,7 @@ $election = new Election();
                     </table><br><br>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-offset-10 col-sm-2">
                             <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
                         </div>
                     </div>

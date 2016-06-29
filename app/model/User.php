@@ -50,6 +50,7 @@ class User {
         $user = $this->find($username);
         if($user){
             Session::put($this->_sessionName, $this->data()->ID);
+            Session::put("username", $this->data()->username);
             if($this->data()->password === $password){
                 return true;
             }
@@ -60,6 +61,7 @@ class User {
     }
     public  function logout(){
         Session::delete($this->_sessionName);
+        Session::delete("username");
     }
 
     public function data(){
