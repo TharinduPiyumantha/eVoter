@@ -77,7 +77,7 @@ require_once("../model/DB_1.php");
                 <tbody>
                     <?php
                         $member = new Member();
-                        $membersForElection = $member->loadMembersForElection((new DB)->connectToDatabase());
+                        $membersForElection = $member->loadMembersForElection((new DB_1)->connectToDatabase());
                     while($data1 = $membersForElection -> fetch_row()){
                     ?>
                     <tr  id = <?php echo $data1[0]?>>
@@ -94,7 +94,7 @@ require_once("../model/DB_1.php");
             </table><br><br>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="addVotersBtn" value="Confirm"/>
+                        <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
                     </div>
                 </div>
             </form>

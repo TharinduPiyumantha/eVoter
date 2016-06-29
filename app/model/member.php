@@ -277,6 +277,17 @@ class Member{
         $emailMobileQuery = (new Sql)->selectMemberEmailAndMobile($connection,$memberID);
         return $emailMobileQuery;
     }
+    public function deleteVoters($connection,$electID,$memberID){
+        (new Sql)->deleteVoterRow($connection,$electID,$memberID);
+    }
+    public function getRegMemNotInElect($connection,$electID){
+        $registeredNotInElecMem = (new Sql)->getRegisteredMembersNotInElection($connection,$electID);
+        return $registeredNotInElecMem;
+    }
+    public function getMembersNotCandidates($connection,$electionID){
+        $membersNotCandidates = (new Sql)->getCandidatesNotInElection($connection,$electionID);
+        return $membersNotCandidates;
+    }
 }
 
 ?>

@@ -16,7 +16,7 @@ if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
 
-$db= new DB();
+$db= new DB_1();
 $connection = $db->connectToDatabase();
 $election = new Election();
 $queryData = $election->getElectionDetails($connection,$electionID);
@@ -32,7 +32,7 @@ $row = mysqli_fetch_row($queryData);
 
     <div id="page-wrapper">
         <div class="container">
-            <h2>Election Details</h2>
+            <h2>Edit Election</h2>
             <form class="form-horizontal" role="form" method="post" action="../controller/editElectionDetails.php?electID=<?php echo $electionID;?>">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="name">Election Name:</label>
@@ -66,7 +66,7 @@ $row = mysqli_fetch_row($queryData);
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="electionDetailEdit" value="Next>>>"/>
+                        <input name="submit" type="submit" id="electionDetailEdit" class="btn btn-default btn-primary" value="Next>>>"/>
                     </div>
                 </div>
             </form>

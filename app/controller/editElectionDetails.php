@@ -39,7 +39,7 @@ if(isset($_POST["votes"])){
 }
 //echo $noOfVotesPerPerson;
 
-$db = new DB();
+$db = new DB_1();
 $connection = $db->connectToDatabase();
 
 if(!empty($electionName)&&!empty($date)&&!empty($startTime)&&!empty($endTime)&&!empty($noOfVotesPerPerson)) {

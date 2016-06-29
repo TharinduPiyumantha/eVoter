@@ -5,23 +5,34 @@
 * Date: 6/7/2016
 * Time: 4:17 PM
 */
-?>
-<body>
-<?php
 require_once('../model/election.php');
 require_once('../model/DB_1.php');
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
-echo $electionID;
-$db= new DB();
+//echo $electionID;
+$db= new DB_1();
 $connection = $db->connectToDatabase();
 $election = new Election();
 $queryData = $election->getElectionDetails($connection,$electionID);
 $row = mysqli_fetch_row($queryData);
-
 ?>
+<script>
+    function deleteElection(electID){
+        var r = confirm("Are you sure you want to delete the election?");
+        var electionID = electID;
+
+        if(r==true) {
+            window.location.href = "../controller/deleteElection.php?electID="+electionID;
+        }else{
+
+        }
+
+    }
+</script>
+</head>
+<body>
 <div id="wrapper">
 
     <nav class="navbar navbar-inverse navbar-fixed-top color-change" role="navigation" >
@@ -65,12 +76,11 @@ $row = mysqli_fetch_row($queryData);
                         <input type="text" class="form-control" id="votes" name="votes" value="<?php echo $row[4]?>" readonly>
                     </div>
                 </div>
-                <br><br>
             </form>
         </div>
         <div class="container">
             <h2>Candidates Details</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="align-content: center">
                 <thead>
                 <tr>
                     <th>Member Name</th>
@@ -88,7 +98,10 @@ $row = mysqli_fetch_row($queryData);
                         <td><?php echo $data1[0] ?></td>
                         <td><?php echo $data1[1] ?></td>
                         <td><?php echo $data1[2] ?></td>
-                        <td><?php echo $data1[3] ?></td>
+                        <td><img src="<?php echo $data1[3]?>" width="50" height="50"></td>
+
+
+
                     </tr>
                     <?php
                 }
@@ -131,7 +144,7 @@ $row = mysqli_fetch_row($queryData);
             </table>
         </div>
         <input type="button" value="Edit" class="btn btn-default" id="editElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $electionID;?>'" />
-        <input type="button" value="Delete" class="btn btn-default" id="deleteElection" onClick="document.location.href='deleteElectionEvent.php'" />
+        <input type="button" value="Delete" class="btn btn-default" id="deleteElection" onClick="deleteElection('<?php echo $electionID ?>')" />
         <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
     </div>
 </div>

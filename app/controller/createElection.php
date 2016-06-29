@@ -5,6 +5,7 @@
  * Date: 6/4/2016
  * Time: 1:05 PM
  */
+
 require_once '../model/election.php';
 require_once '../model/DB_1.php';
 
@@ -34,7 +35,7 @@ if(isset($_POST["votes"])){
 }
 //echo $noOfVotesPerPerson;
 
-$db = new DB();
+$db = new DB_1();
 $connection = $db->connectToDatabase();
 $elecID="";
 $electionStatus = "scheduled";
@@ -44,5 +45,4 @@ if(!empty($electionName)&&!empty($date)&&!empty($startTime)&&!empty($endTime)&&!
     $elecID = $election->getMaxElectionID($connection);
 }
 header("location: ../view/addCandidatesInterface.php?electID=".$elecID);
-
 ?>

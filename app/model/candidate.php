@@ -13,7 +13,25 @@ class Candidate{
     private $memberID;
     private $electionID;
 
-    public function __construct($electionID,$memberID,$candidateNo,$symbolImage){
+    public function __construct() {
+        $argv = func_get_args();
+        switch( func_num_args() ) {
+            case 0:
+                self::__construct1();
+                break;
+            case 4:
+                self::__construct2( $argv[0], $argv[1], $argv[2], $argv[3]);
+        }
+    }
+
+
+    public function __construct1(){
+        $this->electionID = "";
+        $this->memberID = "";
+        $this->candidateNo = "";
+        $this->symbolImage = "";
+    }
+    public function __construct2($electionID,$memberID,$candidateNo,$symbolImage){
         $this->electionID = $electionID;
         $this->memberID = $memberID;
         $this->candidateNo = $candidateNo;
@@ -59,8 +77,22 @@ class Candidate{
     {
         return $this->symbolImage;
     }
-    public function insertCandidateIntoDB($connection){
-        (new Sql)->createNewCandidate($connection,$this->getElectionID(), $this->getMemberID(), $this->getCandidateNo(), $this->getSymbolImage());
+    public function insertCandidateIntoDB($connection,$electID,$membID){
+        (new Sql)->createNewCandidate($connection,$electID, $membID);
 
+    }
+    public function deleteCandidate($connection,$electID,$memberID){
+        (new Sql)->deleteCandidateRow($connection,$electID,$memberID);
+    }
+    public function getCandidatesDetails($connection,$electID){
+        return (new Sql)->getCandDetails($connection,$electID);
+
+    }
+    public function updateCandidate($connect,$candNo,$symbolImage,$electionID,$membID){
+        (new Sql)->updateCandDetails($connect,$candNo,$symbolImage,$electionID,$membID);
+    }
+    public function getCandWithoutSymbol($connect, $electionID)
+    {
+        return (new Sql)->getCandWithoutSymbol($connect, $electionID);
     }
 }

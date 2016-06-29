@@ -5,7 +5,7 @@
  * Date: 6/11/2016
  * Time: 12:09 PM
  */
-class DB{
+class DB_1{
 
     public static function connectToDatabase()
     {

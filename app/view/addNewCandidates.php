@@ -1,7 +1,18 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: ShalikaFernando
+ * Date: 6/28/2016
+ * Time: 1:44 PM
+ */
 include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
+
+$electionID="";
+if(isset($_GET["electID"])){
+    $electionID=$_GET["electID"];
+}
 ?>
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -45,12 +56,13 @@ require_once("../model/DB_1.php");
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"> Select Candidates </h1>
+                    <h1 class="page-header"> Edit Election </h1>
                 </div>
             </div>
 
-            <form class="form-horizontal" role="form" method="post" action="../controller/addCandidates.php?electID=<?php echo $_GET["electID"];?>">
-                <input type="checkbox" onClick="toggle(this)" /> Select All<br/><br/>
+            <form class="form-horizontal" role="form" method="post" action="../controller/addNewCandidates.php?electID=<?php echo $_GET["electID"];?>">
+                <label>Add More Candidates:</label><br>
+                <input type="checkbox" onClick="toggle(this)" /> Select All<br/>
                 <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                     <thead>
                     <tr>
@@ -77,8 +89,8 @@ require_once("../model/DB_1.php");
                     <tbody>
                     <?php
                     $member = new Member();
-                    $membersForElection = $member->loadMembersForElection((new DB_1)->connectToDatabase());
-                    while($data1 = $membersForElection -> fetch_row()){
+                    $membersNotInElect = $member->getMembersNotCandidates((new DB_1)->connectToDatabase(),$electionID);
+                    while($data1 = $membersNotInElect -> fetch_row()){
                     ?>
                     <tr  id = <?php echo $data1[0]?>>
                         <td class="tableData" name=<?php echo $data1[0]?>><input name="check_list[]" id=<?php echo $data1[0] ?> class="CheckBoxSchedule" type="checkbox" value="<?php echo $data1[0] ?>"></td>
@@ -94,7 +106,7 @@ require_once("../model/DB_1.php");
                 </table><br><br>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
+                        <input name="submit" type="submit" id="addVotersBtn" class="btn btn-default btn-primary" value="Confirm"/>
                     </div>
                 </div>
             </form>

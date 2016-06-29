@@ -13,81 +13,62 @@ if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
 
-$db= new DB();
+$db= new DB_1();
 $connection = $db->connectToDatabase();
 $election = new Election();
 
 ?>
+<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
 <script>
-
-    function addRow(tableID) {
-
-        var table = document.getElementById(tableID);
-
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        var cell1 = row.insertCell(0);
-        var element1 = document.createElement("input");
-        element1.type = "checkbox";
-        element1.name="chkbox[]";
-        cell1.appendChild(element1);
-
-        var cell2 = row.insertCell(1);
-        cell2.innerHTML = "<input type='text' name='memberName[]' required>";
-
-        var cell3 = row.insertCell(2);
-        cell3.innerHTML = "<input type='text'  name='memberID[]' required/>";
-
-        var cell4 = row.insertCell(3);
-        cell4.innerHTML =  "<input type='text'  name='candNo[]' required/>";
-
-        var cell5 = row.insertCell(4);
-        cell5.innerHTML =  "<input type='submit'  name='browse[]' value='Browse' required/>";
-    }
-
-    function deleteRow(tableID) {
-        try {
-            var table = document.getElementById(tableID);
-            var rowCount = table.rows.length;
-            //alert("Are you sure you want to delete the selected row?");
-            for(var i=0; i<rowCount; i++) {
-                var row = table.rows[i];
-                var chkboxname = row.cells[0].childNodes[0].name;
-                var chkbox = row.cells[0].childNodes[0];
-                var memID = chkboxname;
-                var eID = '<?php echo $electionID; ?>';
-                //alert(memID);
-                //alert(eID);
-                if (null != chkbox && true == chkbox.checked) {
-                    $(document).ready(
-                        function () {
-
-                            $.post("deleteRowData.php",
-                                {
-                                    memberID: memID,
-                                    electID: eID
-
-                                },
-                                function (data) {
-
-                                }
-
-                            );
-
-                        }
-
-                    );
-                    table.deleteRow(i);
-                    rowCount--;
-                    i--;
-                }
-            }
-        }catch(e) {
-            alert(e);
-        }
-    }
+    $(document).ready(function() {
+        $('#memberTable').dataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "stateSave": false
+        });
+    });
 </script>
+<script src="../../public/js/jquery.min.js"></script>
+<script>
+    function deleteRow(tableID) {
+            var r = confirm("Are You Sure You Want To Remove The Candidate?");
+            if(r==true) {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length;
+                for (var i = 0; i < rowCount; i++) {
+                    var row = table.rows[i];
+                    var chkboxname = row.cells[0].childNodes[0].name;
+                    var chkbox = row.cells[0].childNodes[0];
+                    var memID = chkboxname;
+                    var eID = '<?php echo $electionID; ?>';
+
+                    if (null != chkbox && true == chkbox.checked) {
+                        $.post("../controller/deleteRowData.php",
+                            {
+                                memberID: memID,
+                                electID: eID
+                            }
+                        );
+                        table.deleteRow(i);
+                        rowCount--;
+                        i--;
+                    }
+                }
+            }else{
+
+            }
+    }
+
+</script>
+
+</head>
 <body>
 
 <div id="wrapper">
@@ -101,49 +82,56 @@ $election = new Election();
     <div id="page-wrapper">
 
         <div class="container">
-            <h2>Create Election</h2>
-            <form class="form-horizontal" role="form" method="post" action="#">
+            <h2>Edit Election</h2>
+            <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>">
                 <div class="container">
-                    <label class="control-label col-sm-2" for="addCandidates">Add Candidates:</label>
+                    <label class="control-label col-sm-2" for="addCandidates">Selected Candidates:</label><br>
 
-                    <INPUT type="button" id="add" value="Add Row" onClick="addRow('dataTable')" />
+                    <INPUT type="button" id="add" value="Add More Candidates"  class="btn btn-default btn-primary" onClick="location.href = 'addNewCandidates.php?electID=<?php echo $electionID;?>'" />
 
-                    <INPUT type="button" id="remove" value="Delete Row" onClick="deleteRow('dataTable')" /> <br><br>
+                    <INPUT type="button" id="remove" value="Remove Candidates" class="btn btn-default btn-primary"  onClick="deleteRow('dataTable')" /> <br><br>
 
-                    <table width="83%" border="1" align="center" class="table-striped" id="tableCommon">
+                    <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                         <thead>
                         <tr>
-                            <th width="5%" scope="col"></th>
-                            <th width="30%" scope="col">Member Name</th>
-                            <th width="20%" scope="col">Member ID</th>
-                            <th width="20%" scope="col">Candidate Number</th>
-                            <th width="30%" scope="col">Image of Party</th>
+                            <th></th>
+                            <th>MemberID</th>
+                            <th>Member Name</th>
+                            <th>Candidate No</th>
+                            <th>Symbol Image</th>
                         </tr>
                         </thead>
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>MemberID</th>
+                            <th>Member Name</th>
+                            <th>Candidate No</th>
+                            <th>Symbol Image</th>
+
+                        </tr>
+                        </tfoot>
                         <tbody id="dataTable">
                         <?php
                         $candidateList= $election->getCandidateDetails($connection,$electionID);
                         while($data1 = $candidateList -> fetch_row()) {
-                            ?>
-                            <tr>
-                                <td><input name="<?php echo $data1[1] ?>" id=<?php echo $data1[0] ?> class="CheckBoxSchedule" type="checkbox"/></td>
-                                <td><input type="text" value=" <?php echo $data1[0] ?>" name="<?php echo $data1[0] ?>"/></td>
-                                <td><input type="text" value=" <?php echo $data1[1] ?>" name="<?php echo $data1[1] ?>" readonly/></td>
-                                <td><input type="text" value=" <?php echo $data1[2] ?>" name="<?php echo $data1[2] ?>"/></td>
-                                <td><input type="submit" value="<?php echo $data1[3] ?>" name="<?php echo $data1[3] ?>"/></td>
-                            </tr>
-                            <?php
-                        }
                         ?>
+                        <tr  id = <?php echo $data1[0]?>>
+                            <td class="tableData" name=<?php echo $data1[0]?>><input name="<?php echo $data1[0] ?>" id=<?php echo $data1[0] ?> class="CheckBoxSchedule" type="checkbox" value="<?php echo $data1[0] ?>"></td>
+                            <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[0] ?></td>
+                            <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[1] ?></td>
+                            <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[2] ?></td>
+                            <input type="hidden" name="member[0][clubPost]" value="<?php echo $data1[2] ?>"/>
+                            <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[3] ?></td>
+                            <?php } ?>
                         </tbody>
-                    </table>
-                </div>
-                <br><br>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="addCandidatesBtn" value="Next>>>"/>
+                    </table><br><br>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
+                        </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>

@@ -130,6 +130,9 @@ class Election{
         return (new Sql)->updateElectionDetails($connection,$elecName,$date,$sTime,$eTime,$votes,$electionID);
 
     }
+    public function deleteElection($connection,$electionID){
+        return (new Sql)->deleteElectionAll($connection,$electionID);
+    }
 
 }
 ?>

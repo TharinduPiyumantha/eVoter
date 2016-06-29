@@ -61,7 +61,7 @@ require_once("../model/DB_1.php");
                 <tbody>
                     <?php
                         $election = new Election();
-                        $electionList= $election->getElectionList((new DB)->connectToDatabase());
+                        $electionList= $election->getElectionList((new DB_1)->connectToDatabase());
                         while($data1 = $electionList -> fetch_row()){
                     ?>
                 <script> var id = <?php echo(json_encode($data1[0])); ?>;</script>
