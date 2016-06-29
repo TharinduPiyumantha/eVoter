@@ -42,7 +42,7 @@ $row = mysqli_fetch_row($queryData);
     </nav>
 
     <div id="page-wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <h2>Election Details</h2>
             <form class="form-horizontal" role="form" method="post" action="../controller/createElection.php">
                 <div class="form-group">

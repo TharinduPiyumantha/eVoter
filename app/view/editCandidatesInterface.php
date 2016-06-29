@@ -81,7 +81,7 @@ $election = new Election();
 
     <div id="page-wrapper">
 
-        <div class="container">
+        <div class="container-fluid">
             <h2>Edit Election</h2>
             <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>">
                 <div class="container">

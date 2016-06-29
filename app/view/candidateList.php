@@ -28,7 +28,7 @@ $connection = $db->connectToDatabase();
         ?>
     </nav>
     <div id="page-wrapper">
-        <div class="container">
+        <div class="container-fluid">
             <h2>Candidate Details</h2>
             <form class="form-horizontal" role="form" method="post" action="../controller/uploadPartyImage.php?electID=<?php echo $electionID ?>" enctype="multipart/form-data">
                 <table class="table table-striped">
