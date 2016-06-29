@@ -40,7 +40,7 @@
     <!--<script src="<?php /*echo SCRIPT_ROOT */?>/public/js/jquery.ba-resize.min.js" rel="script" type="text/javascript"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.min.js"></script>
+    <!--<script src="<?php /*echo SCRIPT_ROOT */?>/public/js/bootstrap.min.js"></script>-->
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/bootstrap.js"></script>
     <script src="<?php echo SCRIPT_ROOT ?>/public/js/custom.js"></script>
 

@@ -194,3 +194,24 @@ fieldset[disabled] .btn-default.focus {
 .election{
     margin-top: 30px;
 }
+
+.modal-content{
+    position:relative;
+    background-color:#004580; !important;
+    -webkit-background-clip:padding-box;
+    background-clip:padding-box;
+    border: 1px solid #999;
+    border:1px solid rgba(0,0,0,.2);
+    border-radius:6px;outline:0;
+    -webkit-box-shadow:0 3px 9px rgba(0,0,0,.5);
+    box-shadow:0 3px 9px rgba(0,0,0,.5)
+}
+
+td {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #f6d224;
+    color: #FFF;
+}

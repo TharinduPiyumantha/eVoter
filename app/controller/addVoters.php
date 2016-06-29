@@ -1,5 +1,5 @@
 <?php
-require_once("../model/DB.php");
+require_once("../model/DB_1.php");
 require_once("../model/member.php");
 require_once("../model/election.php");
 require_once("../model/sms.php");

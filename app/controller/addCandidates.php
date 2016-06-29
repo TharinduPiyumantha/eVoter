@@ -6,7 +6,7 @@
  * Time: 11:34 PM
  */
 require_once("../model/candidate.php");
-require_once ("../model/DB.php");
+require_once("../model/DB_1.php");
 require_once("../model/member.php");
 
 $db = new DB();

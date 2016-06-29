@@ -20,9 +20,9 @@ class Sql
         $electionID = $row[0];
         return $electionID;
     }
-    public function createNewCandidate($connect,$electionID,$memberID,$candidateNo,$symbolImage)
+    public function createNewCandidate($connect,$electionID,$memberID)
     {
-        $queryToInsertCandidate = mysqli_query($connect, "INSERT INTO candidate(electionID,memberID,candidateNo,symbolImage) VALUES ('$electionID','$memberID','$candidateNo','$symbolImage')");
+        $queryToInsertCandidate = mysqli_query($connect, "INSERT INTO candidate(electionID,memberID) VALUES ('$electionID','$memberID')");
 
     }
     public function createNewMember($connect,$name,$NIC,$dateOfBirth,$email,$homeAddress,$mobileNumber,$occupation,$clubPost,$profileImage,$status,$dateOfJoin,$username,$password)
@@ -31,11 +31,7 @@ class Sql
 
     }
     public function selectMembersForElection($connect){
-<<<<<<< HEAD
-        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateOfJoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
-=======
         $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber FROM clubmember WHERE status=\"registered\"");
->>>>>>> 3f0ff4e9c4ad37e1e6aaf94bf6cfc131da422834
         return $queryToSelectMembersForElection;
     }
     public function changeMemberStatus($connect,$status,$memberID){
@@ -58,7 +54,7 @@ class Sql
         return $queryToloadAllElectionsWithDetails;
     }
     public function getMemberDetailsOfElection($connect,$electionID){
-        $queryToGetMemDetails = mysqli_query($connect,"SELECT name,candidate.memberID,candidateNo,symbolImage from clubmember,candidate where clubmember.memberID=candidate.memberID AND candidate.electionID='$electionID'");
+        $queryToGetMemDetails = mysqli_query($connect,"SELECT candidate.memberID,name,candidateNo,symbolImage from clubmember,candidate where clubmember.memberID=candidate.memberID AND candidate.electionID='$electionID'");
         return $queryToGetMemDetails;
     }
     public function getVoterDetailForElection($connect,$electionID){
@@ -71,7 +67,32 @@ class Sql
     public function deleteCandidateRow($connect,$electionID,$memberID){
         $queryToDeleteCandidates = mysqli_query($connect,"DELETE FROM candidate WHERE electionID='$electionID' AND memberID='$memberID'");
     }
-
-
+    public function deleteVoterRow($connect,$electionID,$memberID){
+        $queryToDeleteVoters = mysqli_query($connect,"DELETE FROM memberelectiondetails WHERE electionID='$electionID' AND memberID='$memberID'");
+    }
+    public function getRegisteredMembersNotInElection($connect,$electionID){
+        $queryToGetRegisteredMembersNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where status='registered' AND memberID NOT IN (SELECT memberID FROM memberelectiondetails WHERE electionID='$electionID')");
+        return $queryToGetRegisteredMembersNotInElection;
+    }
+    public function deleteElectionAll($connect,$electionID){
+        $queryToDeleteCandidates = mysqli_query($connect,"DELETE FROM candidate WHERE electionID='$electionID'");
+        $queryToDeleteVoters = mysqli_query($connect,"DELETE FROM memberelectiondetails WHERE electionID='$electionID'");
+        $queryToDeleteElectionDetails = mysqli_query($connect,"DELETE FROM election WHERE electionID='$electionID'");
+    }
+    public function getCandDetails($connect,$electionID){
+        $queryToGetCandDetails = mysqli_query($connect,"SELECT name,candidate.memberID FROM candidate,clubmember WHERE clubmember.memberID=candidate.memberID AND candidate.electionID='$electionID'");
+        return $queryToGetCandDetails;
+    }
+    public function updateCandDetails($connect,$candNo,$symbolImage,$electionID,$membID){
+        $queryToUpdateCandDetails = mysqli_query($connect,"update candidate set candidateNo='$candNo',symbolImage='$symbolImage' where electionID='$electionID' AND memberID='$membID' ");
+    }
+    public function getCandidatesNotInElection($connect,$electionID){
+        $queryToGetCandidatesNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where status='registered' AND memberID NOT IN (SELECT memberID FROM candidate WHERE electionID='$electionID')");
+        return $queryToGetCandidatesNotInElection;
+    }
+    public function getCandWithoutSymbol($connect,$electionID){
+        $queryToGetCandDetails = mysqli_query($connect,"SELECT name,candidate.memberID FROM candidate,clubmember WHERE (clubmember.memberID=candidate.memberID AND candidate.electionID='$electionID') AND candidateNo='0'");
+        return $queryToGetCandDetails;
+    }
 }
 ?>

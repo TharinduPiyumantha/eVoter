@@ -44,7 +44,7 @@
             <div>
                 <div id="content" scrolling="yes">
                     <?php
-                    $sql = "SELECT name,email FROM clubmember WHERE status = 'not-registered' ";
+                    $sql = "SELECT name,email,clubPost,nic FROM clubmember WHERE status = 'not-registered' ";
                     $result = mysqli_query($con, $sql);
                     ?>
 
@@ -53,6 +53,7 @@
 
                             <thead>
                             <tr>
+                                <th>NIC</th>
                                 <th>Member Name</th>
                                 <th>Email</th>
                                 <th></th>
@@ -69,12 +70,12 @@
                                 "<tr>
               <td>{$array[0]}</td>
               <td>{$array[1]}</td>
-              <td type='button' name='view_details' id='view_details' data-toggle='modal' data-target='#ViewDetails'>View</td>
-              <td type='submit'>Accept</td>
+              <td>{$array[2]}</td>
+              <td><input type='submit' data-id='{$array[3]}'>Accept</td>
+              <td type='submit' data-id='{$array[3]}'>Reject</td>
              </tr>\n";
                             }
                             ?>
-
                             </tbody>
                         </table>
                     </form>
@@ -90,6 +91,11 @@
     </div>
     <!-- /#wrapper -->
 
+<?php
+if (isset($_POST['action'])) {
+    echo '<br />The ' . $_POST['submit'] . ' submit button was pressed<br />';
+}
+?>
 </body>
 
 </html>

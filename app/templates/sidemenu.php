@@ -3,10 +3,10 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
             <li class="active">
-                <a href="index.php"><i class="fa fa-fw fa-dashboard"></i>Home Page</a>
+                <a href="home.php"><i class="fa fa-fw fa-dashboard"></i>Home Page</a>
             </li>
             <li>
-                <a href="charts.html"><i class="fa fa-fw fa-user"></i>Members</a>
+                <a href="memberManage.php"><i class="fa fa-fw fa-user"></i>Members</a>
             </li>
             <li>
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i>News Feed</a>
@@ -24,7 +24,7 @@
                 </ul>
             </li>
             <li>
-                <a href="blank-page.html"><i class="fa fa-fw fa-file"></i>Member Manage</a>
+                <a href="tables.html"><i class="fa fa-fw fa-table"></i>Campaign</a>
             </li>
         </ul>
     </div>

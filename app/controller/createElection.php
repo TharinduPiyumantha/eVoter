@@ -6,7 +6,7 @@
  * Time: 1:05 PM
  */
 require_once '../model/election.php';
-require_once '../model/DB.php';
+require_once '../model/DB_1.php';
 
 $electionName="";
 if(isset($_POST["elecName"])){
