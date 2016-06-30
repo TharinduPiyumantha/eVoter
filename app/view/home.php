@@ -7,9 +7,13 @@
  */
  include "../templates/header.php";
  include "../controller/userRequest.php";
+require_once '../model/dbConfig.php';
 
+$sql = "SELECT * FROM clubmember WHERE status = 'candidate' ";
+$result = mysqli_query($con, $sql);
 ?>
 <script src="../../public/js/userRequest.js"></script>
+<script src="../countdown.js"></script>
 
 <body>
 
@@ -68,7 +72,34 @@
                             <div class="row">
 
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">Time Countdown will be display</div>
+                                    <div class="huge">
+                                        <script type="application/javascript">
+
+                                            function doneHandler(result){
+
+                                                //alert("Complete");
+                                            }
+
+                                            function myTime (time) {
+                                                var time=parseInt(time);
+                                                // body...
+
+                                                var myCountdown1 = new Countdown({
+                                                    time: time, // 86400 seconds = 1 day
+                                                    width:460,
+                                                    height:110,
+                                                    rangeHi:"day",
+                                                    style:"flip",   // <- no comma on last item!
+                                                    onComplete: doneHandler
+                                                });
+
+                                            }
+                                            var sampleDate = new Date("2016-07-01T02:13:46Z");
+                                            //alert(sampleDate);
+                                            myTime(1000);
+
+                                        </script>
+                                    </div>
                                     <!--<div>New Tasks</div>-->
                                 </div>
                             </div>
@@ -88,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="userRequests.php">
                             <div class="panel-footer">
                                 <span class="pull-left">View Requests</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -106,36 +137,35 @@
                             <h3 class="panel-title"><i class="fa fa-user fa-fw"></i>Candidates</h3>
                         </div>
                         <div class="panel-body">
+
+                            <?php
+                            while ($array = mysqli_fetch_row($result))
+                            {
+                            $candidate_name= $array[1];
+                                $candidate_nic=$array[2];
+                            ?>
+
                             <div class="col-lg-4">
                                 <div class="candi_wrapper">
                                     <img class="candidate" src="<?php echo SCRIPT_ROOT ?>/public/images/user-images/user1.jpg" alt="">
+                                    <label style="color: #004580;text-align: center;"><?php echo $candidate_name ?></label>
+                                    </div>
+
                                     <div class="button">
-                                        <a href="#" class="btn btn-default btn-align">Support</a>
-                                        <a href="#" class="btn btn-default btn-align">View</a>
+                                        <a href="profile.php?value=<?php echo $candidate_nic ?>"><button type="button" name="btn-view" class="btn btn-default btn-primary" style="float: right;">
+                                                <i class="fa fa-hand-o-right"></i>&nbsp;View
+                                            </button></a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="candi_wrapper">
-                                    <img class="candidate" src="<?php echo SCRIPT_ROOT ?>/public/images/user-images/user1.jpg" alt="">
-                                    <div class="button">
-                                        <a href="#" class="btn btn-default btn-align">Support</a>
-                                        <a href="#" class="btn btn-default btn-align">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="candi_wrapper">
-                                    <img class="candidate" src="<?php echo SCRIPT_ROOT ?>/public/images/user-images/user1.jpg" alt="">
-                                    <div class="button">
-                                        <a href="#" class="btn btn-default btn-align">Support</a>
-                                        <a href="#" class="btn btn-default btn-align">View</a>
-                                    </div>
-                                </div>
+
+                            <?php
+                            }
+                            ?>
+
                             </div>
                         </div>
                     </div>
-                </div>
+
 
                 <div class="col-lg-4">
                     <div class="panel panel-default">
@@ -166,7 +196,7 @@
                                 </a>
                             </div>
                             <div class="text-right">
-                                <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="news_feed.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

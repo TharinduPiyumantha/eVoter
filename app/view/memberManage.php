@@ -9,6 +9,15 @@
 include "../templates/header.php";
 require_once '../model/dbConfig.php';
 ?>
+<script type="text/javascript">
+    <!-- clickable raws-->
+    $(document).ready(function(){
+        $('.tableRow').click(function(){
+            window.location = $(this).attr('href');
+            return false;
+        });
+    });
+</script>
 
 <body>
 
@@ -56,17 +65,19 @@ require_once '../model/dbConfig.php';
                         <?php
 
                         while ($array = mysqli_fetch_row($result))
-                        {
-                            echo
-                            "<tr>
-              <td>{$array[0]}</td>
-              <td>{$array[1]}</td>
-              <td>{$array[2]}</td>
-              <td>{$array[3]}</td>
-              <td>{$array[4]}</td>
-              <td>{$array[5]}</td>
-             </tr>\n";
-                        }
+                        {?>
+
+
+                            <tr class='tableRow' id = <?php echo $array[0] ?> href='profile.php?value=<?php echo $array[2]?>'>
+
+              <td><?php echo $array[0] ?></td>
+              <td><?php echo $array[1] ?></td>
+              <td><?php echo $array[2] ?></td>
+              <td><?php echo $array[3] ?></td>
+              <td><?php echo $array[4] ?></td>
+              <td><?php echo $array[5] ?></td>
+             </tr>
+                       <?php }
                         ?>
                         </tbody>
                     </table>

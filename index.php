@@ -42,6 +42,7 @@ if(Input::exists())
 <body style="background-color:#ffffff;margin-top: -0px;">
 <div class="col-lg-12"">
 <div class="col-lg-6 " style="border-color: #f6d224;height:100%;">
+    <img src="public/images/e-voter logo 1.png" style="margin-top: 115px;margin-left: 30px;">
 </div>
 
 <div class="col-lg-6 fill-height" style="background-color:#004580;border-color: #f6d224;height:100%;">

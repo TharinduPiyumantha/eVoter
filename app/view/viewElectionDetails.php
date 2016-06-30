@@ -43,7 +43,14 @@ $row = mysqli_fetch_row($queryData);
 
     <div id="page-wrapper">
         <div class="container-fluid">
-            <h2>Election Details</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Election Details </h1>
+                </div>
+            </div>
+
             <form class="form-horizontal" role="form" method="post" action="../controller/createElection.php">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="name">Election Name:</label>
@@ -79,7 +86,14 @@ $row = mysqli_fetch_row($queryData);
             </form>
         </div>
         <div class="container-fluid">
-            <h2>Candidates Details</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Candidates Details </h1>
+                </div>
+            </div>
+
             <table class="table table-bordered" style="align-content: center">
                 <thead>
                 <tr>
@@ -111,7 +125,14 @@ $row = mysqli_fetch_row($queryData);
             </table>
         </div>
         <div class="container-fluid">
-            <h2>Voters Details</h2>
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"> Voters Details </h1>
+                </div>
+            </div>
+
             <table class="table table-bordered">
                 <thead>
                 <tr>

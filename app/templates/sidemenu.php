@@ -1,3 +1,4 @@
+
 <!-- Navigation -->
     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -11,18 +12,21 @@
             <li>
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i>News Feed</a>
             </li>
-            <li>
-                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i>Election Event<i class="fa fa-fw fa-caret-down"></i></a>
-                <ul id="demo" class="collapse">
-                    <li>
-                        <a href="../view/electionList.php">View Elections</a>
-                    </li>
-                    <li>
-                        <a href="../view/electionInterface.php">Create Election</a>
-                    </li>
 
-                </ul>
-            </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+                                class="fa fa-fw fa-arrows-v"></i>Election Event<i
+                                class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="../view/electionList.php">View Elections</a>
+                            </li>
+                            <li>
+                                <a href="../view/electionInterface.php">Create Election</a>
+                            </li>
+
+                        </ul>
+
             <li>
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i>Campaign</a>
             </li>

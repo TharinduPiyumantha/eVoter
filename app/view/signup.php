@@ -6,6 +6,7 @@
 <body style="background-color:#ffffff;margin-top: -0px;">
 <div class="col-lg-12"">
         <div class="col-lg-6 " style="border-color: #f6d224;height:100%;">
+            <img src="../../public/images/e-voter logo 1.png" style="margin-top: 115px;margin-left: 30px;">
         </div>
 
     <div class="col-lg-6 fill-height" style="background-color:#004580;border-color: #f6d224;height:100%;">
@@ -19,7 +20,7 @@
         style="color:#000000;">
             <h3>Thank You....!</h3>
              <p style="color:#f6d224;">You have registered successfully. Please wait for the administration confirmation. You will get a mail with login details.
-            <a href="home.php" style="color:#ffffff;">CLICK here</a> to log</p>
+            <a href="../../index.php" style="color:#ffffff;">CLICK here</a> to log</p>
 </div>
 
         <div id="signup-form" class="fill-height">
