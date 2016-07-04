@@ -36,7 +36,7 @@ require_once '../model/dbConfig.php';
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"> Members </h1>
+                    <h1 class="page-header"> Member Requests </h1>
                 </div>
             </div>
 

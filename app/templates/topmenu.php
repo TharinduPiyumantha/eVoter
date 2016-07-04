@@ -97,7 +97,7 @@
 
 
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"> Dilini Weerasinghe</i>
                 <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li>

@@ -79,7 +79,7 @@ require_once '../model/dbConfig.php';
 
                             while ($array = mysqli_fetch_row($result))
                             {?>
-                                    <td>" . "<input name='checkbox[]' type='checkbox' id='checkbox[]' class='box' value={$db_result[$i]->id}>"."</td>
+                                    <td><input name='checkbox[]' type='checkbox' id='checkbox[]' class='box' value=""."</td>
                                     <td><?php echo $array[1] ?></td>
                                     <td><?php echo $array[2] ?></td>
                                     <td><?php echo $array[4] ?></td>
@@ -95,12 +95,17 @@ require_once '../model/dbConfig.php';
                 </div>
             </div>
 
-            <!--pop up newmsg modal-->
+            <!-- Modal -->
             <div class="modal fade" id="NewMsg" role="dialog" action="" >
                 <div class="modal-dialog">
-                    <div>
-                        <div class="col-lg-10 col-lg-offset-2 model_addnew">
-                            <h4 style="color:white;text-align:left;">New Message</h4>
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="color: #ffffff;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">New Message</h4>
+                        </div>
+                        <div class="modal-body">
                             <form class="form-horizontal" action="../controller/send_msg.php"  data-toggle="validator" method="post" id="admin-adduser">
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">To:</label>
@@ -108,10 +113,11 @@ require_once '../model/dbConfig.php';
                                         <input class="form-control" type="text" name="to_user" id="to_user" placeholder="Receiver Name" list="exampleList">
                                         <datalist id="exampleList">
                                             <?php
-                                            $sql2 = "SELECT * FROM clubmembers WHERE NIC <> '916191197v' ";
+                                            $sql2 = "SELECT * FROM clubmember WHERE NIC <> '916191197v' ";
                                             $result2 = mysqli_query($con, $sql2);
                                             while ($array = mysqli_fetch_row($result2)) {
-                                                echo $array[1];
+                                                echo
+                                                "<option value='{$array[1]}'>{$array[1]}</option>";
                                             }
                                             ?>
                                         </datalist>
@@ -123,19 +129,24 @@ require_once '../model/dbConfig.php';
                                         <textarea name="msg" id="msg" class="form-control" placeholder="Text Message" COLS=50 ROWS=10 WRAP=SOFT value=""></TEXTAREA>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-sm-offset-7 controls">
+
+                                <div class="modal-footer">
                                     <button type="submit" id="send_btn" name="send_btn" class="btn btn-default btn-primary">
                                         <i class="fa fa-hand-o-right"></i>&nbsp;Send Message
                                     </button>
+
                                     <button type="button" name="btn-cancel" class="btn btn-default btn-primary" data-dismiss="modal">
-                                        <i class="fa fa-ban"></i>&nbsp;Cancel
+                                        <i class="fa fa-ban"></i>&nbsp;Close
                                     </button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
+
                 </div>
-            </div><!--end pop up new msg modal-->
+            </div>
+            <!-- /.modal -->
 
             </div>
             <!-- /.container-fluid -->
