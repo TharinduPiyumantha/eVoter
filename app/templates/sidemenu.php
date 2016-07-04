@@ -10,7 +10,7 @@
                 <a href="memberManage.php"><i class="fa fa-fw fa-user"></i>Members</a>
             </li>
             <li>
-                <a href="tables.html"><i class="fa fa-fw fa-table"></i>News Feed</a>
+                <a href="../view/newsfeed.php"><i class="fa fa-fw fa-table"></i>News Feed</a>
             </li>
 
                     <li>
@@ -29,6 +29,9 @@
 
             <li>
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i>Campaign</a>
+            </li>
+            <li>
+                <a href="../view/msg_inbox.php"><i class="fa fa-fw fa-table"></i>My Message</a>
             </li>
         </ul>
     </div>
