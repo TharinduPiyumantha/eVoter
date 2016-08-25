@@ -102,11 +102,11 @@ $result = mysqli_query($con, $sql);
                             </div>
 
                             <div class="col-sm-6 col-sm-offset-7 controls">
-                                <a href="../controller/accept.php?value=<?php echo $array[2]?>"><button type="submit" id="btn-signup" name="btn-signup" class="btn btn-default btn-primary">
+                                <a href="../controller/accept.php?value=<?php echo $array[0]?>"><button type="submit" id="btn-signup" name="btn-signup" class="btn btn-default btn-primary">
                                     <i class="fa fa-hand-o-right"></i>&nbsp;Accept
                                 </button>
 
-                                <a href="#"><button type="button" name="btn-cancel" class="btn btn-default btn-primary">
+                                <a href="../controller/reject.php?value=<?php echo $array[0]?>" onclick="return confirm('Are you sure?')" ><button type="button" name="btn-cancel" class="btn btn-default btn-primary" >
                                         <i class="fa fa-ban"></i>&nbsp;Reject
                                     </button></a>
                             </div>

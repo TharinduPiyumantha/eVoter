@@ -172,7 +172,7 @@ fieldset[disabled] .btn-default.focus {
 }
 
 .error{
-    color: #ffffff !important;
+    color:#ccc !important;
 }
 
 .signup-success{
@@ -213,5 +213,5 @@ td {
 
 .selected {
     background-color: #f6d224;
-    color: #FFF;
+    color: #000000;
 }

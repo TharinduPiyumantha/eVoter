@@ -14,7 +14,9 @@ require_once("../model/DB_1.php");
             "bLengthChange": false,
             "bFilter": true,
             "bInfo": false,
-            "bAutoWidth": false });
+            "bAutoWidth": false,
+            "order": [[ 1, "desc" ],[2, "desc"]]
+        });
     });
 </script>
 <script type="text/javascript">
@@ -49,12 +51,12 @@ require_once("../model/DB_1.php");
 
             <table id="electionTable" class="table">
                 <thead>
-                <tr>
-                    <th>Election Name</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Status</th>
+                <tr bgcolor="#2952a3">
+                    <th style="color:White">Election Name</th>
+                    <th style="color:White">Date</th>
+                    <th style="color:White">Start Time</th>
+                    <th style="color:White">End Time</th>
+                    <th style="color:White">Status</th>
                 </tr>
                 </thead>
 
@@ -62,15 +64,39 @@ require_once("../model/DB_1.php");
                     <?php
                         $election = new Election();
                         $electionList= $election->getElectionList((new DB_1)->connectToDatabase());
+                        $currentDate = date("Y-m-d");
+                        //echo $currentDate;
+                        date_default_timezone_set("Asia/Colombo");
+                        $currentTime = date("H:i:s");
+                        //echo $currentTime;
+                        $color = "";
+                        $status = "";
+
                         while($data1 = $electionList -> fetch_row()){
+                            if($currentDate < $data1[2]){
+                                $color = "#99ccff";
+                                $status = "Scheduled";
+                            }else if($currentDate > $data1[2]){
+                                $color = "#ff9999";
+                                $status = "Finished";
+                            }else if(($currentDate == $data1[2]) && (($data1[3]<=$currentTime)&&($data1[4]>=$currentTime))){
+                                $color = "#99ff99";
+                                $status = "On Going";
+                            }else if(($currentDate == $data1[2]) && (($data1[3]>$currentTime)&&($data1[4]>$currentTime))){
+                                $color = "#99ccff";
+                                $status = "Scheduled";
+                            }else if(($currentDate == $data1[2]) && (($data1[3]<$currentTime)&&($data1[4]<$currentTime))){
+                                $color = "#ff9999";
+                                $status = "Finished";
+                            }
                     ?>
                 <script> var id = <?php echo(json_encode($data1[0])); ?>;</script>
-                <tr class="tableRow" id = <?php echo $data1[0] ?> href="viewElectionDetails.php?electID=<?php echo $data1[0]?>">
+                <tr bgcolor="<?php echo $color?>" class="tableRow" id = <?php echo $data1[0] ?> href="viewElectionDetails.php?electID=<?php echo $data1[0]?>&status=<?php echo $status?>">
                     <td class="tableData" ><?php echo $data1[1] ?></td>
                     <td class="tableData" ><?php echo $data1[2] ?></td>
                     <td class="tableData" ><?php echo $data1[3] ?></td>
                     <td class="tableData" ><?php echo $data1[4] ?></td>
-                    <td class="tableData" ><?php echo $data1[5] ?></td>
+                    <td class="tableData" ><?php echo $status ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>

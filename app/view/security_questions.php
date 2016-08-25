@@ -60,7 +60,7 @@ if($_POST) {
             <div class="col-sm-6 col-sm-offset-7 controls" style="margin-top: 40px;">
 
                 <button type="submit" id="btn-submit" name="btn-submit" class="btn btn-default btn-primary">
-                    <i class="fa fa-thumbs-o-up"></i>&nbsp;SUBMIT
+                    <i class="fa fa-hand-o-right"></i>&nbsp;NEXT
                 </button>
 
                 <a href="../../index.php"><button type="button" name="btn-cancel" class="btn btn-default btn-primary">

@@ -11,7 +11,7 @@ $(document).ready(
 
                 success: function(data)
                 {
-                    $('#memberRequest').html(data);
+                    $('#memberRequest').val(data);
                 }
             });
         }, 1000);

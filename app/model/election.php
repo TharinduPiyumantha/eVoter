@@ -14,7 +14,6 @@ class Election{
     private $endTime;
     private $noOfVotesPerPerson;
     private $noOfVoters;
-    private $electionStatus;
 
     public function __construct() {
         $argv = func_get_args();
@@ -22,21 +21,20 @@ class Election{
             case 0:
                 self::__construct1();
                 break;
-            case 6:
-                self::__construct2( $argv[0], $argv[1], $argv[2], $argv[3],$argv[4],$argv[5]);
+            case 5:
+                self::__construct2( $argv[0], $argv[1], $argv[2], $argv[3],$argv[4]);
         }
     }
     public function __construct1(){
 
     }
 
-    public function __construct2($electionName,$date,$startTime,$endTime,$noOfVotesPerPerson,$electionStatus){
+    public function __construct2($electionName,$date,$startTime,$endTime,$noOfVotesPerPerson){
         $this->electionName = $electionName;
         $this->date = $date;
         $this->startTime = $startTime;
         $this->endTime = $endTime;
         $this->noOfVotesPerPerson = $noOfVotesPerPerson;
-        $this->electionStatus = $electionStatus;
 
     }
 
@@ -69,10 +67,6 @@ class Election{
     {
         $this->noOfVoters = $noOfVoters;
     }
-    public function setElectionStatus($electionStatus)
-    {
-        $this->electionStatus = $electionStatus;
-    }
 
     public function getElectionName()
     {
@@ -103,13 +97,9 @@ class Election{
         return $this->noOfVoters;
     }
 
-    public function getElectionStatus()
-    {
-        return $this->electionStatus;
-    }
     public function insertIntoElection($connection){
 
-        (new Sql)->createNewElection($connection,$this->getElectionName(), $this->getDate(), $this->getStartTime(), $this->getEndTime(), $this->getNoOfVotesPerPerson(), $this->getElectionStatus());
+        (new Sql)->createNewElection($connection,$this->getElectionName(), $this->getDate(), $this->getStartTime(), $this->getEndTime(), $this->getNoOfVotesPerPerson());
     }
     public function getMaxElectionID($connection){
         return (new Sql)->getElectionID($connection);
@@ -133,6 +123,60 @@ class Election{
     public function deleteElection($connection,$electionID){
         return (new Sql)->deleteElectionAll($connection,$electionID);
     }
+    public function finishedElectList($connection){
+        return (new Sql)->getFinishedElectList($connection);
+    }
+    public function getMaxFinishedElectDate($connection){
+        return (new Sql)->getLatestElectDate($connection);
+    }
+    public function getNoOfQualifiedCandidates($connection,$electID){
+        return (new Sql)->noOfQualifiedCandidates($connection,$electID);
+    }
+    public function getNoOfCastedVoters($connection,$electID){
+        return (new Sql)->noOfCastedVoters($connection,$electID);
+    }
+    public function getNoOfQualifiedVoters($connection,$electID){
+        return (new Sql)->noOfQualifiedVoters($connection,$electID);
+    }
+    public function getWonPersonality($connection,$electID){
+        return (new Sql)->wonPersonality($connection,$electID);
+    }
+    public function getWonPersonalityDetails($connection,$electID,$candidateID){
+        return (new Sql)->getWonPersonalityDetails($connection,$electID,$candidateID);
+    }
+    public function getElectionResults($connection,$electID){
+        $sql = new Sql();
+        $resultsArray_small = array();
+        $resultsArray_big = array();
+        $votesArray = $sql->getResultsOfElection($connection,$electID);
+        while($votes = $votesArray->fetch_row()){
+            $candDetailsArr =  $sql->getCandidateDetailsForResults($connection,$electID,$votes[0]);
+            $candDetails = $candDetailsArr->fetch_row();
+            $candName = $candDetails[0];
+            $symbol = $candDetails[1];
+            array_push($resultsArray_small, $candName, $votes[0],$symbol,$votes[1]);
+            array_push($resultsArray_big,$resultsArray_small);
+            $resultsArray_small = array();
+        }
+
+        return  $resultsArray_big;
+    }
+    public function getCandNameAndVotes($connection,$electID){
+        return (new Sql)->getNameAndVotes($connection,$electID);
+    }
+
+    //NEWW sunday
+
+    public function getCandidateNumbers($connection,$electID){
+        return (new Sql)->getCandidateNoForElection($connection,$electID);
+    }
+    public function getVotesCountPerCandidate($connection,$electID,$candNo){
+        return (new Sql)->getBallotCountPerCandidate($connection,$electID,$candNo);
+    }
+    public function getCandidatesDetailsForResults($connection,$electID,$candNo){
+        return (new Sql)->getCandDetailsForResults($connection,$electID,$candNo);
+    }
+
 
 }
 ?>

@@ -67,9 +67,7 @@ require_once '../model/dbConfig.php';
                             while ($array = mysqli_fetch_row($result))
                             {?>
 
-
                                 <tr class='tableRow' id = <?php echo $array[0] ?> href='acceptUsers.php?value=<?php echo $array[2]?>'>
-
                                     <td><?php echo $array[0] ?></td>
                                     <td><?php echo $array[1] ?></td>
                                     <td><?php echo $array[2] ?></td>

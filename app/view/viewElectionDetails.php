@@ -11,6 +11,10 @@ $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
+$status="";
+if(isset($_GET["status"])){
+    $status=$_GET["status"];
+}
 //echo $electionID;
 $db= new DB_1();
 $connection = $db->connectToDatabase();
@@ -53,33 +57,33 @@ $row = mysqli_fetch_row($queryData);
 
             <form class="form-horizontal" role="form" method="post" action="../controller/createElection.php">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="name">Election Name:</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-4" for="name">Election Name:</label>
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" id="elecName" name="elecName" value="<?php echo $row[0]?>" readonly>
 
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="date">Date:</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-4" for="date">Date:</label>
+                    <div class="col-sm-4">
                         <input type="date" class="form-control" id="date" name="date" value="<?php echo $row[1]?>" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="stime">Start Time:</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-4" for="stime">Start Time:</label>
+                    <div class="col-sm-4">
                         <input type="time" class="form-control" id="sTime" name="sTime" value="<?php echo $row[2]?>" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="etime">End Time:</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-4" for="etime">End Time:</label>
+                    <div class="col-sm-4">
                         <input type="time" class="form-control" id="eTime" name="eTime" value="<?php echo $row[3]?>" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="noOfVotesPerson">Number of Votes Per Person:</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-4" for="noOfVotesPerson">Number of Votes Per Person:</label>
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" id="votes" name="votes" value="<?php echo $row[4]?>" readonly>
                     </div>
                 </div>
@@ -96,11 +100,11 @@ $row = mysqli_fetch_row($queryData);
 
             <table class="table table-bordered" style="align-content: center">
                 <thead>
-                <tr>
-                    <th>Member Name</th>
-                    <th>Member ID</th>
-                    <th>Candidate No</th>
-                    <th>Image Of Party</th>
+                <tr bgcolor="#2952a3">
+                    <th style="color:White">Member Name</th>
+                    <th style="color:White">Member ID</th>
+                    <th style="color:White">Candidate No</th>
+                    <th style="color:White">Image Of Party</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -135,17 +139,18 @@ $row = mysqli_fetch_row($queryData);
 
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>Member ID</th>
-                    <th>Member Name</th>
-                    <th>Club Post</th>
-                    <th>Data OF Join</th>
-                    <th>Email</th>
-                    <th>Mobile Number</th>
+                <tr bgcolor="#2952a3">
+                    <th style="color:White">Member ID</th>
+                    <th style="color:White">Member Name</th>
+                    <th style="color:White">Club Post</th>
+                    <th style="color:White">Data OF Join</th>
+                    <th style="color:White">Email</th>
+                    <th style="color:White">Mobile Number</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
+
                 $votersList= $election->getVoterDetails($connection,$electionID);
                 while($data1 = $votersList -> fetch_row()) {
                     ?>
@@ -166,11 +171,16 @@ $row = mysqli_fetch_row($queryData);
         </div><br>
 
         <div class="form-group">
-            <div class="col-sm-offset-9 col-sm-4">
+            <div class="col-sm-offset-9 col-sm-3">
+                <?php if($status == "Scheduled"){?>
         <input type="button" value="Edit" class="btn btn-default" id="editElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $electionID;?>'" />
+               <?php }
+                if($status != "On Going"){?>
         <input type="button" value="Delete" class="btn btn-default" id="deleteElection" onClick="deleteElection('<?php echo $electionID ?>')" />
+                <?php }?>
         <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
                 </div></div>
+        <br><br>
 
     </div>
 </div>

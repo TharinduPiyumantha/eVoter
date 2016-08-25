@@ -1,4 +1,6 @@
-<?php include "../templates/header.php";
+<?php
+require_once('../core/init.php');
+include "../templates/header.php";
 /**
 * Created by PhpStorm.
 * User: ShalikaFernando
@@ -38,8 +40,13 @@ $election = new Election();
 <script src="../../public/js/jquery.min.js"></script>
 <script>
     function deleteRow(tableID) {
+        var chckBoxCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+        if(chckBoxCount!=0) {
             var r = confirm("Are You Sure You Want To Remove The Candidate?");
-            if(r==true) {
+
+            if (r == true) {
+                var memberIDs = new Array();
                 var table = document.getElementById(tableID);
                 var rowCount = table.rows.length;
                 for (var i = 0; i < rowCount; i++) {
@@ -48,8 +55,12 @@ $election = new Election();
                     var chkbox = row.cells[0].childNodes[0];
                     var memID = chkboxname;
                     var eID = '<?php echo $electionID; ?>';
+                    //alert(memID);
+                    //alert(eID);
+
 
                     if (null != chkbox && true == chkbox.checked) {
+                        memberIDs.push(memID);
                         $.post("../controller/deleteRowData.php",
                             {
                                 memberID: memID,
@@ -61,9 +72,16 @@ $election = new Election();
                         i--;
                     }
                 }
-            }else{
+                var json = JSON.stringify(memberIDs);
+
+                window.location = "cmntsOnRemovingCandidates.php?electID=" + eID + "&memberIDs=" + json + "&token=" + "\'candidate\'";
+
+            } else {
 
             }
+        }else{
+            alert("Please Select Candidates You Want To Remove!");
+        }
     }
 
 </script>
@@ -87,38 +105,26 @@ $election = new Election();
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header"> Edit Election </h1>
+                    <h4 class="page-header"> Selected Candidates: </h4>
                 </div>
             </div>
             <br>
 
             <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>">
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="addCandidates">Selected Candidates:</label><br>
 
                     <input type="button" id="add" value="Add More Candidates"  class="btn btn-default btn-primary" onClick="location.href = 'addNewCandidates.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/>
 
                     <input type="button" id="remove" value="Remove Candidates" class="btn btn-default btn-primary"  onClick="deleteRow('dataTable')" style="margin-top: -20;"/> <br><br>
-
                     <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                         <thead>
-                        <tr>
-                            <th></th>
-                            <th>MemberID</th>
-                            <th>Member Name</th>
-                            <th>Candidate No</th>
-                            <th>Symbol Image</th>
+                        <tr bgcolor="#2952a3">
+                            <th style="color:White"></th>
+                            <th style="color:White">MemberID</th>
+                            <th style="color:White">Member Name</th>
+                            <th style="color:White">Candidate No</th>
+                            <th style="color:White">Symbol Image</th>
                         </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>MemberID</th>
-                            <th>Member Name</th>
-                            <th>Candidate No</th>
-                            <th>Symbol Image</th>
-
-                        </tr>
-                        </tfoot>
                         <tbody id="dataTable">
                         <?php
                         $candidateList= $election->getCandidateDetails($connection,$electionID);
@@ -130,17 +136,20 @@ $election = new Election();
                             <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[1] ?></td>
                             <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[2] ?></td>
                             <input type="hidden" name="member[0][clubPost]" value="<?php echo $data1[2] ?>"/>
-                            <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[3] ?></td>
+                            <td class="tableData" name=<?php echo $data1[0] ?>><img src="<?php echo $data1[3]?>" width="50" height="50"></td>
                             <?php } ?>
                         </tbody>
                     </table><br><br>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-10 col-sm-2">
+                        <div class="col-sm-offset-8 col-sm-3">
+                            <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $_GET["electID"];?>'" />
+                            <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
                             <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
                         </div>
                     </div>
             </form>
+
         </div>
     </div>
 </div>

@@ -8,7 +8,11 @@
 
 include 'app/templates/header.php';
 require_once 'app/core/init.php';
+require_once("app/model/ballotPaper.php");
+require_once("app/model/DB_1.php");
 
+$db = new DB_1();
+$connection = $db->connectToDatabase();
 
 if(Input::exists())
     if(Token::check(Input::get('token'))){
@@ -20,12 +24,24 @@ if(Input::exists())
 
         if($validation->passed()){
             $user = new User();
+            $ballot = new BallotPaper();
             $login = $user->login(Input::get('username'), Input::get('password'));
+            //echo ($user->data()->memberID);
 
             if($login){
-                header('Location: app/view/home.php');
+                //$check = $ballot->checkanswer($connect,$user->data()->memberID);
+                if (($user->data()->securityquestions)== '0'){
+                    header('Location: app/view/security_questions.php');
+                }
+                else if($user->hasPermission('administrator')){
+                    header('Location: app/view/home.php');
+                }else{
+                    header('Location: app/view/memberHome.php');
+                }
+
             } else{
-                echo "Sorry";
+                $message = "Sorry!!!\\n Username or Password is incorrect.\\n Please Try again.";
+                echo "<script type='text/javascript'>alert('$message');</script>";
             }
         }else{
             foreach($validation->errors() as $error){

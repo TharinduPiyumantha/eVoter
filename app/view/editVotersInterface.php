@@ -1,4 +1,5 @@
 <?php
+require_once('../core/init.php');
 include "../templates/header.php";
 require_once("../model/election.php");
 require_once("../model/DB_1.php");
@@ -7,6 +8,7 @@ $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
+$status = "Scheduled";
 ?>
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -27,39 +29,45 @@ if(isset($_GET["electID"])){
 </script>
 <script>
     function deleteRow(tableID) {
-        try {
-            var table = document.getElementById(tableID);
-            var rowCount = table.rows.length;
-            alert("Are you sure you want to delete the selected row?");
-            for(var i=0; i<rowCount; i++) {
-                var row = table.rows[i];
-                var chkboxname = row.cells[0].childNodes[0].name;
-                var chkbox = row.cells[0].childNodes[0];
-                var memID = chkboxname;
-                var eID = '<?php echo $electionID; ?>';
+        var chckBoxCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
 
-                if (null != chkbox && true == chkbox.checked) {
-                    $.post("../controller/deleteVoters.php",
-                        {
-                            memberID: memID,
-                            electID: eID
-                        }
+        if(chckBoxCount!=0) {
+            var r = confirm("Are You Sure You Want To Remove The Selected Voters?");
 
-                    );
-                    table.deleteRow(i);
-                    rowCount--;
-                    i--;
+            if (r == true) {
+                var memberIDs = new Array();
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length;
+                for (var i = 0; i < rowCount; i++) {
+                    var row = table.rows[i];
+                    var chkboxname = row.cells[0].childNodes[0].name;
+                    var chkbox = row.cells[0].childNodes[0];
+                    var memID = chkboxname;
+                    var eID = '<?php echo $electionID; ?>';
 
+                    if (null != chkbox && true == chkbox.checked) {
+                        memberIDs.push(memID);
+                        $.post("../controller/deleteVoters.php",
+                            {
+                                memberID: memID,
+                                electID: eID
+                            }
+                        );
+                        table.deleteRow(i);
+                        rowCount--;
+                        i--;
+                    }
                 }
+                var json = JSON.stringify(memberIDs);
+
+                window.location = "cmntsOnRemovingVoters.php?electID=" + eID + "&memberIDs=" + json + "&token=" + "\'voter\'";
+
+            } else {
 
             }
-            //location.reload();
-
-        }catch(e) {
-            alert(e);
+        }else{
+            alert("Select Voters You Want To Remove!");
         }
-
-
     }
 </script>
 </head>
@@ -80,38 +88,28 @@ if(isset($_GET["electID"])){
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="page-header"> Edit Election </h2>
+                    <h1 class="page-header"> Edit Election </h1>
+                    <h4 class="page-header"> Selected Voters: </h4>
                 </div>
             </div>
+            <br>
 
-            <form class="form-horizontal" role="form" method="post" action="../view/viewElectionDetails.php?electID=<?php echo $electionID;?>">
-                <label class="control-label col-sm-2" for="addCandidates">Selected Voters:</label><br>
+            <form class="form-horizontal" role="form" method="post" action="../view/viewElectionDetails.php?electID=<?php echo $electionID;?>&status=<?php echo $status?>">
                 <INPUT type="button" id="remove" value="Remove Voters" class="btn btn-default btn-primary" onClick="deleteRow('dataTable')" style="margin-top: -20;"/>
                 <INPUT type="button" id="add" value="Add New Voters" class="btn btn-default btn-primary" onClick="location.href = 'addNewVoters.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/> <br><br>
 
                 <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                     <thead>
-                    <tr>
-                        <th></th>
-                        <th>MemberID</th>
-                        <th>Member Name</th>
-                        <th>Club Post</th>
-                        <th>Date Of Join</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
+                    <tr bgcolor="#2952a3">
+                        <th style="color:White"></th>
+                        <th style="color:White">MemberID</th>
+                        <th style="color:White">Member Name</th>
+                        <th style="color:White">Club Post</th>
+                        <th style="color:White">Date Of Join</th>
+                        <th style="color:White">Email</th>
+                        <th style="color:White">Mobile Number</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>MemberID</th>
-                        <th>Member Name</th>
-                        <th>Club Post</th>
-                        <th>Date Of Join</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                    </tfoot>
                     <tbody id="dataTable">
                     <?php
                     $election = new Election();
@@ -132,8 +130,10 @@ if(isset($_GET["electID"])){
                 </table><br><br>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input name="submit" type="submit" id="addVotersBtn" class="btn btn-default btn-primary" value="Next>>>"/>
+                    <div class="col-sm-offset-8 col-sm-3">
+                        <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='editCandidatesInterface.php?electID=<?php echo $_GET["electID"];?>'" />
+                        <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
+                        <input name="submit" type="submit" id="addVotersBtn" class="btn btn-default btn-primary" value="Finish"/>
                     </div>
                 </div>
             </form>

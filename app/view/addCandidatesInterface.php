@@ -1,10 +1,12 @@
 <?php
+require_once('../core/init.php');
 include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
 ?>
+
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
@@ -24,6 +26,62 @@ require_once("../model/DB_1.php");
         checkboxes = document.getElementsByName('check_list[]');
         for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+<script>
+    function sendNotifications() {
+        var chckBoxCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+
+        if(chckBoxCount >= 2) {
+            var r = confirm("Are You Sure You Want To Send Emails and SMSs To The Selected Candidates?");
+
+            if (r == true) {
+                var table = document.getElementById("memberTable");
+                var rowCount = table.rows.length;
+                for (var i = 0; i < rowCount; i++) {
+                    var row = table.rows[i];
+                    var email = row.cells[5].childNodes[0].name;
+                    var mobile = row.cells[6].childNodes[0].name;
+                    var eID =  <?php echo $_GET["electID"];?>;
+                    var type = "candidate";
+                    var chkbox = row.cells[0].childNodes[0];
+
+                    if (null != chkbox && true == chkbox.checked) {
+                        $.post("../controller/notiToCandidatesAndVoters.php",
+                            {
+                                emailAdd: email,
+                                mobileNo: mobile,
+                                electID:eID,
+                                memType:type
+                            }
+                        );
+                    }
+                }
+                alert("Notifications are sent successfully!");
+
+            } else {
+
+            }
+        }else{
+            alert("Please Select Appropriate Number Of Candidates To Send Notifications!");
+        }
+    }
+
+</script>
+
+<script>
+    function validateNoOfCandidates(){
+
+        var checkboxes = $("[type='checkbox']:checked").length;
+
+        if((checkboxes == 0) ||(checkboxes < 2) ){
+            alert("Number of candidates per election should be at least 2! Please select at least 2 candidates.");
+            return false;
+
+        }else {
+            alert("Candidates are added successfully!");
+            return true;
         }
     }
 </script>
@@ -49,31 +107,20 @@ require_once("../model/DB_1.php");
                 </div>
             </div>
 
-            <form class="form-horizontal" role="form" method="post" action="../controller/addCandidates.php?electID=<?php echo $_GET["electID"];?>">
+            <form class="form-horizontal" role="form" method="post" action="../controller/addCandidates.php?electID=<?php echo $_GET["electID"];?>" onsubmit="return validateNoOfCandidates();">
                 <input type="checkbox" onClick="toggle(this)" /> Select All<br/><br/>
                 <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                     <thead>
-                    <tr>
+                    <tr bgcolor="#2952a3">
                         <th></th>
-                        <th>MemberID</th>
-                        <th>Member Name</th>
-                        <th>Club Post</th>
-                        <th>Date Of Join</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
+                        <th style="color:White">MemberID</th>
+                        <th style="color:White">Member Name</th>
+                        <th style="color:White">Club Post</th>
+                        <th style="color:White">Date Of Join</th>
+                        <th style="color:White">Email</th>
+                        <th style="color:White">Mobile Number</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>MemberID</th>
-                        <th>Member Name</th>
-                        <th>Club Post</th>
-                        <th>Date Of Join</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                    </tfoot>
                     <tbody>
                     <?php
                     $member = new Member();
@@ -81,20 +128,23 @@ require_once("../model/DB_1.php");
                     while($data1 = $membersForElection -> fetch_row()){
                     ?>
                     <tr  id = <?php echo $data1[0]?>>
-                        <td class="tableData" name=<?php echo $data1[0]?>><input name="check_list[]" id=<?php echo $data1[0] ?> class="CheckBoxSchedule" type="checkbox" value="<?php echo $data1[0] ?>"></td>
+                        <td class="tableData" name=<?php echo $data1[0] ?>><input name="check_list[]" id=<?php echo $data1[0] ?> class="CheckBoxSchedule" type="checkbox" value="<?php echo $data1[0] ?>"></td>
                         <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[0] ?></td>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[1] ?></td>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[2] ?></td>
+                        <td class="tableData" name=<?php echo $data1[1] ?>><?php echo $data1[1] ?></td>
+                        <td class="tableData" name=<?php echo $data1[2] ?>><?php echo $data1[2] ?></td>
                         <input type="hidden" name="member[0][clubPost]" value="<?php echo $data1[2] ?>"/>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[3] ?></td>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[4] ?></td>
-                        <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[5] ?></td>
+                        <td class="tableData" name=<?php echo $data1[3] ?>><?php echo $data1[3] ?></td>
+                        <td class="tableData" name=<?php echo $data1[4] ?>><input type="hidden" name="<?php echo $data1[4]?>"/><?php echo $data1[4] ?></td>
+                        <td class="tableData" name=<?php echo $data1[5] ?>><input type="hidden" name="<?php echo $data1[5]?>"/><?php echo $data1[5] ?></td>
                         <?php } ?>
                     </tbody>
                 </table><br>
 
-                    <div class="col-sm-offset-10 col-sm-2" >
-                        <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>
+                    <div class="col-sm-offset-7 col-sm-6" >
+                        <input type="button" value="Send Notifications" class="btn btn-default" id="sendNoti" onclick="sendNotifications();" />
+                        <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $_GET["electID"];?>'" />
+                        <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='home.php'" />
+                        <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next >>>"/>
                     </div>
 
             </form>

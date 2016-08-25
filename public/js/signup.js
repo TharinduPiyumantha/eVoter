@@ -12,15 +12,21 @@ $().ready(function(){
                 TestOnly: true
             },
             mid:{
-                required: true
+                required: true,
+                remote:{url: "../../app/controller/memberID_check.php",
+                    type: "post"}
             },
             nic:{
                 required: true,
-                NIC:true
+                NIC:true,
+                remote:{url: "../../app/controller/check_nic.php",
+                    type: "post"}
             },
             email:{
                 required: true,
-                HEmail:true
+                HEmail:true,
+                remote:{url: "../../app/controller/email_check.php",
+                    type: "post"}
             },
             mobile:{
                 required:true,
@@ -28,13 +34,16 @@ $().ready(function(){
             },
             doj:{
                 required:true
+               /* EndDate: { greaterThan: "#doj" }*/
             },
             clubpost:{
                 required:true
             },
             username:{
                 required:true,
-                TestOnly: true
+                remote:{url: "../../app/controller/username_check.php",
+                type: "post"}
+
             },
             pwd:{
                 required:true
@@ -51,13 +60,16 @@ $().ready(function(){
                 required: "Please enter your full name"
             },
             mid:{
-                required:"Please enter your Member ID"
+                required:"Please enter your Member ID",
+                remote: "Already Account is created with this Member ID!"
             },
             nic:{
-                required:"Please enter your National ID card Number"
+                required:"Please enter your National ID card Number",
+                remote: "Already Account is created with this NIC!"
             },
            email:{
-                required:"Please enter your current email address"
+                required:"Please enter your current email address",
+                remote: "Already Account is created with this email!"
             },
             mobile:{
                 required:"Please enter your mobile number"
@@ -69,7 +81,8 @@ $().ready(function(){
                 required:"Please enter your Club Post"
             },
             username:{
-                required:"Please enter valid Username"
+                required:"Please enter valid Username",
+                remote: "Username already in use!"
             },
             pwd:{
                 required:"Please enter valid password"
@@ -129,5 +142,19 @@ jQuery.validator.addMethod("Mobile",function(value,element){
 },"Not a valid mobile number");
 
 jQuery.validator.addMethod("TestOnly",function(value,element){
-    return this.optional(element) || /^[A-Z||a-z]+$/.test(value);
-},"Only alphabetical characters");
+    return this.optional(element) || /^[a-zA-Z][a-zA-Z ]*$/.test(value);
+},"space and alphabetical characters");
+
+/*jQuery.validator.addMethod("greaterThan",
+    function(value, element, params) {
+
+        if (!/Invalid|NaN/.test(new Date(value))) {
+            return new Date(value) > new Date($(params).val());
+        }
+
+        return isNaN(value) && isNaN($(params).val())
+        || (Number(value) > Number($(params).val()));
+    },'Must be greater than {0}.');*/
+
+/*
+ ^[A-Z||a-z]+$   oly for alphabet*/

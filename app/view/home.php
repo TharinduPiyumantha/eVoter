@@ -7,12 +7,12 @@
  */
  include "../templates/header.php";
  include "../controller/userRequest.php";
+include "../controller/electionNo.php";
 require_once '../model/dbConfig.php';
-
-$sql = "SELECT * FROM clubmember WHERE status = 'candidate' ";
-$result = mysqli_query($con, $sql);
 ?>
+<!--
 <script src="../../public/js/userRequest.js"></script>
+<script src="../../public/js/electionsNo.js"></script>-->
 <script src="../countdown.js"></script>
 
 <body>
@@ -49,23 +49,24 @@ $result = mysqli_query($con, $sql);
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-envelope fa-5x"></i>
+                                    <i class="fa fa-inbox fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge" id="message">16</div>
-                                    <div>New Messages</div>
+                                    <div class="huge"><?php echo "$no_of_elections"?></div>
+                                    <div>Elections</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="viewElectionDetails.php">
                             <div class="panel-footer">
-                                <span class="pull-left">View Messages</span>
+                                <span class="pull-left">View Election Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-md-8">
                     <div class="panel panel-green">
                         <div class="panel-heading">
@@ -106,15 +107,16 @@ $result = mysqli_query($con, $sql);
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-user fa-5x"></i>
+                                    <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo "$new_requests"?></div>
+                                    <div class="huge" id="memberRequest"><?php echo "$new_requests"?></div>
                                     <div>Member Requests</div>
                                 </div>
                             </div>
@@ -134,31 +136,64 @@ $result = mysqli_query($con, $sql);
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-user fa-fw"></i>Candidates</h3>
+                            <h3 class="panel-title"><i class="fa fa-users fa-fw"></i>&nbsp; Candidates</h3>
                         </div>
                         <div class="panel-body">
 
                             <?php
+                            $currentDate = date("Y-m-d");
+                            $sql = "SELECT MIN(date),electionID FROM election WHERE date < '$currentDate'";
+                            $result = mysqli_query($con, $sql);
+
                             while ($array = mysqli_fetch_row($result))
                             {
-                            $candidate_name= $array[1];
-                                $candidate_nic=$array[2];
-                            ?>
+                                $electionDate=$array[0];
+                                $electionID= $array[1];
 
-                            <div class="col-lg-4">
-                                <div class="candi_wrapper">
-                                    <img class="candidate" src="<?php echo SCRIPT_ROOT ?>/public/images/user-images/user1.jpg" alt="">
-                                    <label style="color: #004580;text-align: center;"><?php echo $candidate_name ?></label>
+                                $sql1 = "SELECT memberID,candidateNo,symbolImage FROM candidate WHERE electionID = '$electionID'";
+                                $result1 = mysqli_query($con, $sql1);
+
+                            while ($array1 = mysqli_fetch_row($result1)) {
+                                $candidatememberID = $array1[0];
+                                $candidatecandidateNo = $array1[1];
+                                $candidatesymbol = $array1[2];
+
+                                $sql2 = "SELECT * FROM clubmember WHERE memberID = '$candidatememberID'";
+                                $result2 = mysqli_query($con, $sql2);
+
+                                while ($array2 = mysqli_fetch_row($result2)) {
+                                    $candidatename = $array2[1];
+                                    ?>
+
+                                    <div class="col-lg-4">
+                                        <div class="candi_wrapper">
+                                            <img class="candidate"
+                                                 src="<?php echo SCRIPT_ROOT ?>/public/images/user-images/user1.jpg"
+                                                 alt="">
+                                            Name:<label
+                                                style="color: #004580;text-align: center;"><?php echo $candidatename ?></label>
+                                            <br>
+                                            Candidate No. <label
+                                                style="color: #004580;text-align: center;"><?php echo $candidatecandidateNo ?></label>
+                                            <!--<img class="candidate"
+                                                 src="<?php /*$candidatesymbol*/?>"
+                                                 alt="">-->
+                                        </div>
+
+                                        <div class="button">
+                                            <a href="profile.php?value=<?php echo $candidatememberID ?>">
+                                                <button type="button" name="btn-view"
+                                                        class="btn btn-default btn-primary"
+                                                        style="float: right;">
+                                                    <i class="fa fa-hand-o-right"></i>&nbsp;View
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
 
-                                    <div class="button">
-                                        <a href="profile.php?value=<?php echo $candidate_nic ?>"><button type="button" name="btn-view" class="btn btn-default btn-primary" style="float: right;">
-                                                <i class="fa fa-hand-o-right"></i>&nbsp;View
-                                            </button></a>
-                                    </div>
-                                </div>
-
-                            <?php
+                                <?php
+                                }
+                            }
                             }
                             ?>
 
@@ -170,7 +205,7 @@ $result = mysqli_query($con, $sql);
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>News Feed</h3>
+                            <h3 class="panel-title"><i class="fa fa-newspaper-o fa-fw"></i>&nbsp; News Feed</h3>
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
@@ -196,7 +231,7 @@ $result = mysqli_query($con, $sql);
                                 </a>
                             </div>
                             <div class="text-right">
-                                <a href="news_feed.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="news_feed.php">View All News <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

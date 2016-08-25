@@ -1,4 +1,6 @@
-<?php include "../templates/header.php";
+<?php
+require_once('../core/init.php');
+include "../templates/header.php";
 /**
  * Created by PhpStorm.
  * User: ShalikaFernando
@@ -16,7 +18,91 @@ if(isset($_GET["electID"])){
 $db= new DB_1();
 $connection = $db->connectToDatabase();
 
+$candidate = new Candidate();
+$candNoArr = $candidate->getCandidateNoOfNotNull($connection,$electionID);
+$candidateNoArray = array();
+$imagesArray = array();
+
+while($data = $candNoArr->fetch_row()){
+    array_push($candidateNoArray,$data[0]);
+    array_push($imagesArray,$data[1]);
+}
+
 ?>
+<script>
+    function validateTable() {
+        var tableLength = document.getElementById("candTable").rows.length - 1;
+        var candNo;
+        var imgType;
+        var i;
+        var candBool = true;
+        var imgBool = true;
+        var candidateNo = [];
+        var imagesType = [];
+
+        var dbCandNoArray = new Array();
+        var dbImagesArray = new Array();
+        <?php foreach($candidateNoArray as $val){ ?>
+        dbCandNoArray.push('<?php echo $val; ?>');
+        <?php } ?>
+
+        <?php foreach($imagesArray as $val){ ?>
+        dbImagesArray.push('<?php echo $val; ?>');
+        <?php } ?>
+
+        for (i = 1; i <= tableLength; i++) {
+            candNo = document.getElementById(i + "cand").value;
+            imgType = document.getElementById(i + "img").value;
+
+            candidateNo.push(candNo);
+            imagesType.push(imgType);
+
+            if ((candNo == 0) || (candNo < 0) || (candNo % 1 != 0)) {
+                candBool = candBool && false;
+            } else if (!(imgType.includes(".jpg")) && !(imgType.includes(".png")) && !(imgType.includes(".jpeg"))) {
+                imgBool = imgBool && false;
+            } else {
+                candBool = candBool && true;
+                imgBool = imgBool && true;
+            }
+        }
+
+        if (candBool == false) {
+            alert("Candidate Number Shoud Be A Positive Integer!");
+            return false;
+        } else if (imgBool == false) {
+            alert("Candidate Symbol Type Should Be .jpg or .png or .jpeg");
+            return false;
+        } else {
+            loop1:
+                for (var i = 0; i <= candidateNo.length; i++) {
+                    loop2:
+                        for (var j = i; j <= candidateNo.length; j++) {
+                            if (i != j && candidateNo[i] == candidateNo[j]) {
+                                alert("Duplicated Candidate Numbers! Please assign unique candidate number for each candidate!");
+                                return false;
+                                break loop1;
+                            } else if (i != j && imagesType[i] == imagesType[j]) {
+                                alert("Duplicated Candidate Symbols! Please assign unique candidate symbol for each candidate!");
+                                return false;
+                                break loop1;
+                            }
+                        }
+                    loop3:
+                        for (var j = 0; j <= dbCandNoArray.length; j++) {
+                            if (candidateNo[i] == dbCandNoArray[j]) {
+                                alert("Duplicated Candidate Numbers! Candidate number "+dbCandNoArray[j]+" already exists. Please assign unique candidate number for each candidate!");
+                                return false;
+                                break loop1;
+                            }
+                        }
+
+                    alert("Candidate Numbers And Symbols Are Added Successfully!");
+                    return true;
+                }
+        }
+    }
+</script>
 
 </head>
 <body>
@@ -37,38 +123,47 @@ $connection = $db->connectToDatabase();
                 </div>
             </div>
             <br>
+            <br><br><br><br><br>
 
-            <form class="form-horizontal" role="form" method="post" action="../controller/uploadPartyImageNewCandidates.php?electID=<?php echo $electionID ?>" enctype="multipart/form-data">
-                <table class="table table-striped">
+            <form class="form-horizontal" role="form" method="post" action="../controller/uploadPartyImageNewCandidates.php?electID=<?php echo $electionID ?>" enctype="multipart/form-data" onsubmit="return validateTable();">
+                <table class="table table-striped" id="candTable">
                     <thead>
-                    <tr>
-                        <th>Member Name</th>
-                        <th>Member ID</th>
-                        <th>Candidate No</th>
-                        <th>Image Of Party</th>
-                        <th></th>
+                    <tr bgcolor="#2952a3">
+                        <th style="color:White">Member Name</th>
+                        <th style="color:White">Member ID</th>
+                        <th style="color:White">Candidate No</th>
+                        <th style="color:White">Image Of Party</th>
+                        <th style="color:White"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     $candidateList= (new Candidate)->getCandWithoutSymbol($connection, $electionID);
-                    while($data1 = $candidateList -> fetch_row()) {
+                    $id = 1;
+
+                    while ($data1=$candidateList -> fetch_row()) {
                         ?>
                         <tr>
                             <td><?php echo $data1[0] ?></td>
-                            <td><input type="text" id='<?php echo $data1[1]."member" ?>' name= "memberID[]"  value="<?php echo $data1[1]?>" readonly /></td>
-                            <td><input type="text" id='<?php echo $data1[1]."CandNo" ?>' name= 'candNo[]' required/></td>
-                            <td><input type="file" id='<?php echo $data1[1]."ImgPath" ?>' name= 'imgPath[]' required /></td>
+                            <td><input type="text" id='<?php echo $id . "mem" ?>' name="memberID[]"
+                                       value="<?php echo $data1[1] ?>" readonly style="border:none"/></td>
+                            <td><input type="text" id='<?php echo $id . "cand" ?>' name='candNo[]' required/></td>
+                            <td><input type="file" id='<?php echo $id . "img" ?>' name='imgPath[]' required/></td>
                         </tr>
-                    <?php
-                    }
-                    ?>
+                        <?php
+                        $id = $id + 1;
+                    } ?>
                     </tbody>
                 </table>
-                <div class="col-sm-6 col-sm-offset-11 controls">
+
+                <br><br>
+                <div class="col-sm-4 col-sm-offset-9 controls">
+                    <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='addNewCandidates.php?electID=<?php echo $_GET["electID"];?>'" />
+                    <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
                     <input class="btn btn-default btn-primary" name="submit" type="submit" id="addPartyImage" value="Next>>>"/>
                 </div>
             </form>
+
         </div>
     </div>
 </div>

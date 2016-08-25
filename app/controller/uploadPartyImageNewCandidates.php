@@ -57,6 +57,6 @@ if (isset($_POST['submit'])) {
 
     }
 }
-header("location: ../view/editVotersInterface.php?electID=".$electionID);
+header("location: ../view/editCandidatesInterface.php?electID=".$electionID);
 
 ?>

@@ -5,6 +5,7 @@
  * Date: 6/15/2016
  * Time: 9:15 PM
  */
+require_once("Sql.php");
 
 class User {
     private  $_db, $_data, $_sessionName, $_isLoggedIn;
@@ -49,7 +50,7 @@ class User {
     public function login($username= null, $password= null){
         $user = $this->find($username);
         if($user){
-            Session::put($this->_sessionName, $this->data()->ID);
+            Session::put($this->_sessionName, $this->data()->memberID);
             Session::put("username", $this->data()->username);
             if($this->data()->password === $password){
                 return true;
@@ -72,7 +73,7 @@ class User {
         return $this->_isLoggedIn;
     }
     public function hasPermission($key){
-        $group = $this->_db->get('groups', array('id','=', $this->data()->group));
+        $group = $this->_db->get('groups', array('id','=', $this->data()->user_group));
         if($group->count()){
             $permissions = json_decode($group->first()->permissions, true);
             if($permissions[$key]== true){
@@ -80,5 +81,9 @@ class User {
             }
         }
         return false;
+    }
+    public function checksecurity(){
+        $results = $this->_db->get('securityquestionanswer', array('memberID','=', $this->data()->memberID));
+        return $results;
     }
 }

@@ -95,4 +95,10 @@ class Candidate{
     {
         return (new Sql)->getCandWithoutSymbol($connect, $electionID);
     }
+    public function getCandidateInfo($connect, $electionID){
+        return (new Sql)->getCandidatesDetails($connect, $electionID);
+    }
+    public function getCandidateNoOfNotNull($connect, $electionID){
+        return (new Sql)->getCandidateNumbersOfNotNull($connect, $electionID);
+    }
 }

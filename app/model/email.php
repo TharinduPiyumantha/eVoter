@@ -10,7 +10,7 @@ require_once '../../public/vendor/autoload.php';
 
 class Email{
 
-    function sendMail($email, $subject, $body,$pageName){ //function parameters, 4 variables.
+    function sendMail($email, $subject, $body){ //function parameters, 4 variables.
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
@@ -30,7 +30,7 @@ class Email{
         $mail->Body = $body;
         $mail->send();
 
-        header("location: ../view/".$pageName);
+        //header("location: ../view/".$pageName);
 
         /*if($mail->send())
         {

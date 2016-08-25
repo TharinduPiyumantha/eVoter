@@ -39,8 +39,9 @@ $val = $_POST['check_list'];
     <div class="answer-success hidden col-lg-8 col-md-8 col-sm-8 col-lg-offset-2" id="answer-success"
          style="color:#000000;">
         <h3> Welcome....! </h3>
-        <p style="color:#f6d224;">Your security Questions have saved successfully. WELCOME to eVoter !!!
+        <p style="color:#f6d224;">Your security Questions have saved successfully. WELCOME to eVoter !!!>
             <a href="../../index.php" style="color:#ffffff;">CLICK here</a> to log into the system. Thank You for your cooperation.</p>
+
     </div>
 
     <div id="answer-form">

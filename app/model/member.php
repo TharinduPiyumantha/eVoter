@@ -288,6 +288,10 @@ class Member{
         $membersNotCandidates = (new Sql)->getCandidatesNotInElection($connection,$electionID);
         return $membersNotCandidates;
     }
+    public function getMemberName($connection,$memberID){
+        $membersName = (new Sql)->getMemberName($connection,$memberID);
+        return $membersName;
+    }
 }
 
 ?>
