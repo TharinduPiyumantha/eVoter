@@ -1,4 +1,4 @@
-<?php define( 'SCRIPT_ROOT', 'http://localhost/eVoter2' );?>
+<?php define( 'SCRIPT_ROOT', 'http://localhost/eVoter' );?>
 
 <html>
 <meta charset="UTF-8">
