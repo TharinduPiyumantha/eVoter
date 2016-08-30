@@ -62,6 +62,9 @@ require_once '../core/init.php';
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i>&nbsp;Campaign</a>
             </li>
             <li>
+                <a href="../view/currentElectionsList.php"><i class="fa fa-fw fa-table"></i>Vote</a>
+            </li>
+            <li>
                 <a href="../view/finishedElecList.php"><i class="fa fa-fw fa-area-chart"></i>&nbsp; Elections Results</a>
             </li>
         </ul>

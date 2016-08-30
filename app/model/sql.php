@@ -185,12 +185,15 @@ class Sql
         return $answer;
     }
     public function getSecurityPin($connect,$userID){
-        $answer = mysqli_query($connect, "SELECT pin FROM securitypin WHERE memberID='$userID'");
+        $answer = mysqli_query($connect, "SELECT pin, attempts FROM securitypin WHERE memberID='$userID'");
         return $answer;
     }
     public  function updateSecurityPin($connect, $userID, $pin){
         mysqli_query($connect, "Update securitypin set pin='$pin' WHERE memberID='$userID'");
 
+    }
+    public function updateAttempts($connect, $userID, $attempts){
+        mysqli_query($connect, "Update securitypin set attempts='$attempts' WHERE memberID='$userID'");
     }
 
 

@@ -50,5 +50,7 @@ class BallotPaper{
     public function updateSecurityPin($connect,$userID,$pin){
         (new Sql)->updateSecurityPin($connect, $userID, $pin);
     }
-
+    public function updateAttempts($connect,$userID,$attempts){
+        (new Sql)->updateAttempts($connect, $userID, $attempts);
+    }
 }

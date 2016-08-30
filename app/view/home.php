@@ -9,6 +9,10 @@
  include "../controller/userRequest.php";
 include "../controller/electionNo.php";
 require_once '../model/dbConfig.php';
+
+//Edited by dilu
+
+
 ?>
 <!--
 <script src="../../public/js/userRequest.js"></script>
@@ -181,7 +185,7 @@ require_once '../model/dbConfig.php';
                                         </div>
 
                                         <div class="button">
-                                            <a href="profile.php?value=<?php echo $candidatememberID ?>">
+                                            <a href="candidateprofile.php?value=<?php echo $candidatememberID ?>">
                                                 <button type="button" name="btn-view"
                                                         class="btn btn-default btn-primary"
                                                         style="float: right;">
@@ -201,41 +205,64 @@ require_once '../model/dbConfig.php';
                         </div>
                     </div>
 
+                <!-- edited by dilu-->
 
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-newspaper-o fa-fw"></i>&nbsp; News Feed</h3>
+                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>News Feed</h3>
                         </div>
+
                         <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">just now</span>
-                                    <i class="fa fa-fw fa-calendar"></i> Calendar updated
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">4 minutes ago</span>
-                                    <i class="fa fa-fw fa-comment"></i> Commented on a post
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">1 hour ago</span>
-                                    <i class="fa fa-fw fa-user"></i> A new user has been added
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">yesterday</span>
-                                    <i class="fa fa-fw fa-globe"></i> Saved the world
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">two days ago</span>
-                                    <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
-                                </a>
-                            </div>
+                            <?php
+                            $sql3 = "SELECT * FROM images inner join clubmember on images.image_owner_ID = clubmember.memberID where clubmember.user_group = '2' ORDER BY image_id DESC LIMIT 5" ;
+                            $result3 = mysqli_query($con, $sql3);
+
+                            while ($data1 = mysqli_fetch_assoc($result3))
+                            {
+
+                                ?>
+
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item">
+
+                                        <span class="badge"><?php echo $data1['date_time']; ?></span>
+                                        <i class="fa fa-fw fa-calendar"></i>
+
+                                        <?php
+
+                                        $string = $data1['image_name'];
+                                        if (strlen($string) > 20){
+                                            $strcut = substr($string,0,20);
+                                            $string = substr($strcut,0,strrpos($strcut,' ')) . '...';
+
+                                        }
+
+                                        echo $string;
+
+                                        ?>
+
+
+                                    </a>
+                                </div>
+
+                            <?php
+
+                            }
+
+
+                            ?>
+
+
                             <div class="text-right">
-                                <a href="news_feed.php">View All News <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="../newsfeed/newsfeed_index.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- edited end -->
+
             </div>
             <!-- /.row -->
 
