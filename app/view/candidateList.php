@@ -1,6 +1,11 @@
 <?php
 require_once('../core/init.php');
 include "../templates/header.php";
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 /**
  * Created by PhpStorm.
  * User: ShalikaFernando

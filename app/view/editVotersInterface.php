@@ -3,6 +3,12 @@ require_once('../core/init.php');
 include "../templates/header.php";
 require_once("../model/election.php");
 require_once("../model/DB_1.php");
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $electionID="";
 if(isset($_GET["electID"])){
@@ -96,7 +102,7 @@ $status = "Scheduled";
 
             <form class="form-horizontal" role="form" method="post" action="../view/viewElectionDetails.php?electID=<?php echo $electionID;?>&status=<?php echo $status?>">
                 <INPUT type="button" id="remove" value="Remove Voters" class="btn btn-default btn-primary" onClick="deleteRow('dataTable')" style="margin-top: -20;"/>
-                <INPUT type="button" id="add" value="Add New Voters" class="btn btn-default btn-primary" onClick="location.href = 'addNewVoters.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/> <br><br>
+                <INPUT type="button" id="add" value="Add More Voters" class="btn btn-default btn-primary" onClick="location.href = 'addNewVoters.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/> <br><br>
 
                 <table id="memberTable" class="table table-striped table-bordered" cellspacing="0" width="10%">
                     <thead>

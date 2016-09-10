@@ -10,6 +10,12 @@ include "../templates/header.php";
 require_once("../model/election.php");
 require_once("../model/DB_1.php");
 require_once("../model/candidate.php");
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $candidate = new Candidate();
 

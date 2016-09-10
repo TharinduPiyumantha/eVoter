@@ -26,7 +26,7 @@ while ($array = mysqli_fetch_row($result)) {
     $user_email = $array[3];
     $user_mob = $array[4];
 
-    $sql1 = "UPDATE clubmember SET status='registered' WHERE memberID= '$user_mid'";
+    $sql1 = "UPDATE clubmember SET status= 'registered' WHERE memberID= '$user_mid'";
     $sql2 = "INSERT INTO securitypin (memberID,pin) VALUES ('$user_mid','$pin')";
 
     if ($con->query($sql1) === TRUE) {
@@ -39,8 +39,8 @@ while ($array = mysqli_fetch_row($result)) {
 
     $subject = "Welcome to eVoter";
 
-    /*$sms = new SMS();
-    $sms->sendSMS($message,$user_mob);*/
+    $sms = new SMS();
+    $sms->sendSMS($message,$user_mob);
     $emailObj = new Email();
     $emailObj->sendMail($user_email, $subject, $message);
 }

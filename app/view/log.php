@@ -1,6 +1,11 @@
 <?php
 require_once '../core/init.php';
 
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 if(Session::exists('success')){
     echo Session::flash('success');
 }

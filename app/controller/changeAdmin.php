@@ -19,7 +19,7 @@ for ($x = 0; $x <= 2; $x++) {
     $memberID = $val[$x];
     echo $memberID;
 
-    $sql = "UPDATE clubmember SET user_group='2' WHERE memberID = '$user_mid'";
+    $sql = "UPDATE clubmember SET user_group='2'  WHERE memberID = '$user_mid'";
     $sql1 = "UPDATE clubmember SET user_group='1' WHERE memberID = '$currentAdmin'";
   /*  $result = mysqli_query($con, $sql);*/
 

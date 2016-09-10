@@ -23,10 +23,10 @@ if($_POST){
     $clubpost	= filter_var($_POST["clubpost"], FILTER_SANITIZE_STRING);
     $username	= filter_var($_POST["username"], FILTER_SANITIZE_STRING);
     $confirmpwd	= filter_var($_POST["confirmpwd"], FILTER_SANITIZE_STRING);
-
+    $password = hash("sha256", $confirmpwd);
 
     $sql = "INSERT INTO clubmember (memberID,name,NIC,email,mobileNumber,clubPost,profileImage,status,dateofjoin,username,password)
-VALUES ('$mid','$fname','$nic','$email','$mobile','$clubpost','$img','$status','$doj','$username','$confirmpwd')";
+VALUES ('$mid','$fname','$nic','$email','$mobile','$clubpost','$img','$status','$doj','$username','$password')";
 
     if ($con->query($sql) === TRUE) {
         echo "New record created successfully";

@@ -1,5 +1,4 @@
 <?php
-require_once('../core/init.php');
 include "../templates/header.php";
 /**
  * Created by PhpStorm.
@@ -9,6 +8,13 @@ include "../templates/header.php";
  */
 require_once('../model/election.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
@@ -144,7 +150,7 @@ $row = mysqli_fetch_row($queryData);
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-7 col-sm-3">
-                        <input type="button" value="<<< Back" class="btn btn-default" id="cancelElection" onClick="document.location.href='viewElectionDetails.php?electID=<?php echo $electionID;?>'" />
+                        <input type="button" value="<<< Back" class="btn btn-default" id="cancelElection" onClick="document.location.href='viewElectionDetails.php?electID=<?php echo $electionID;?>&status=Scheduled'" />
                         <input name="submit" type="submit" id="electionDetailEdit" class="btn btn-default btn-primary" value="Next >>>"/>
                     </div>
                 </div>

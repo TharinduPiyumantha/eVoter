@@ -60,7 +60,7 @@ if($memberID == "voter") {
 $subject = $electName;
 
 $sms = new SMS();
-//$sms->sendSMS($message,$mobile);
+$sms->sendSMS($message,$mobile);
 $emailObj = new Email();
 $emailObj->sendMail($email, $subject, $message);
 

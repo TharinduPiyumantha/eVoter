@@ -52,7 +52,9 @@ class User {
         if($user){
             Session::put($this->_sessionName, $this->data()->memberID);
             Session::put("username", $this->data()->username);
-            if($this->data()->password === $password){
+
+            $str = str_replace(PHP_EOL, '', $this->data()->status);
+            if(($this->data()->password === hash("sha256", $password)) && (($str == "registered") || ($str == "candidate"))){
                 return true;
             }
 

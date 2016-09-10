@@ -8,6 +8,12 @@
 
 include "../templates/header.php";
 require_once '../model/dbConfig.php';
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $val = $_POST['check_list'];
 ?>

@@ -5,12 +5,18 @@
  * Date: 8/4/2016
  * Time: 5:14 PM
  */
-require_once('../core/init.php');
 include "../templates/header.php";
 
 require_once('../model/election.php');
 require_once('../model/member.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];

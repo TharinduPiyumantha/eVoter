@@ -1,5 +1,4 @@
 <?php
-require_once('../core/init.php');
 include "../templates/header.php";
 /**
  * Created by PhpStorm.
@@ -10,6 +9,13 @@ include "../templates/header.php";
 require_once('../model/election.php');
 require_once('../model/candidate.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
@@ -39,6 +45,7 @@ while($data = $candNoArr->fetch_row()){
         var imgBool = true;
         var candidateNo = [];
         var imagesType = [];
+        var tabImgs = [];
 
         var dbCandNoArray = new Array();
         var dbImagesArray = new Array();
@@ -54,6 +61,10 @@ while($data = $candNoArr->fetch_row()){
             candNo = document.getElementById(i + "cand").value;
             imgType = document.getElementById(i + "img").value;
 
+            var splitVal = imgType.split('\\');
+            var tabImgName = splitVal[2];
+            tabImgs.push(tabImgName);
+
             candidateNo.push(candNo);
             imagesType.push(imgType);
 
@@ -66,7 +77,6 @@ while($data = $candNoArr->fetch_row()){
                 imgBool = imgBool && true;
             }
         }
-
         if (candBool == false) {
             alert("Candidate Number Shoud Be A Positive Integer!");
             return false;
@@ -75,9 +85,9 @@ while($data = $candNoArr->fetch_row()){
             return false;
         } else {
             loop1:
-                for (var i = 0; i <= candidateNo.length; i++) {
+                for (var i = 0; i < candidateNo.length; i++) {
                     loop2:
-                        for (var j = i; j <= candidateNo.length; j++) {
+                        for (var j = i; j < candidateNo.length; j++) {
                             if (i != j && candidateNo[i] == candidateNo[j]) {
                                 alert("Duplicated Candidate Numbers! Please assign unique candidate number for each candidate!");
                                 return false;
@@ -89,17 +99,25 @@ while($data = $candNoArr->fetch_row()){
                             }
                         }
                     loop3:
-                        for (var j = 0; j <= dbCandNoArray.length; j++) {
+                        for (var j = 0; j < dbCandNoArray.length; j++) {
                             if (candidateNo[i] == dbCandNoArray[j]) {
                                 alert("Duplicated Candidate Numbers! Candidate number "+dbCandNoArray[j]+" already exists. Please assign unique candidate number for each candidate!");
                                 return false;
                                 break loop1;
+                            }else{
+                                var splitValDb = dbImagesArray[j].split('/');
+                                var dbImg = splitValDb[4];
+                                if(tabImgs.indexOf(dbImg) > -1){
+                                    alert("The symbol "+dbImg+" has already reserved! Please select another symbol.");
+                                    return false;
+                                    break loop1;
+
+                                }
                             }
                         }
-
-                    alert("Candidate Numbers And Symbols Are Added Successfully!");
-                    return true;
                 }
+            alert("Candidate Numbers And Symbols Are Added Successfully!");
+            return true;
         }
     }
 </script>
@@ -158,7 +176,7 @@ while($data = $candNoArr->fetch_row()){
 
                 <br><br>
                 <div class="col-sm-4 col-sm-offset-9 controls">
-                    <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='addNewCandidates.php?electID=<?php echo $_GET["electID"];?>'" />
+                    <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='editCandidatesInterface.php?electID=<?php echo $_GET["electID"];?>'" />
                     <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
                     <input class="btn btn-default btn-primary" name="submit" type="submit" id="addPartyImage" value="Next>>>"/>
                 </div>

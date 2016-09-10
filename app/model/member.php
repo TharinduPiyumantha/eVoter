@@ -292,6 +292,12 @@ class Member{
         $membersName = (new Sql)->getMemberName($connection,$memberID);
         return $membersName;
     }
+    public  function changeStatusToCandidate($connection,$memberID){
+        (new Sql)->changeStatusToCandidate($connection,$memberID);
+    }
+    public  function haveElections($connection,$memberID){
+        (new Sql)->loadHaveElectionsWithDetails($connection,$memberID);
+    }
 }
 
 ?>

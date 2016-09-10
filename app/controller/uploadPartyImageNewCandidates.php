@@ -21,12 +21,13 @@ $target_path = "";
 
 if (isset($_POST['submit'])) {
     $j = 0;     // Variable for indexing uploaded image.
-    $target_path = "../../public/uploads/";     // Declaring Path for uploaded images.
+    $target_path1 = "../../public/uploads/";     // Declaring Path for uploaded images.
     for ($i = 0; $i < count($_FILES['imgPath']['name']); $i++) { // Loop to get individual element from the array
         $validextensions = array("jpeg", "jpg", "png");      // Extensions which are allowed.
         $ext = explode('.', basename($_FILES['imgPath']['name'][$i]));   // Explode file name from dot(.)
         $file_extension = end($ext); // Store extensions in the variable.
-        $target_path = $target_path . md5(uniqid()) . "." . $ext[count($ext) - 1];    // Set the target path with a new name of image.
+        $target_path = $target_path1 . $_FILES['imgPath']['name'][$i];    // Set the target path with a new name of image.
+
         $j = $j + 1;      // Increment the number of uploaded images according to the files in array.
         if (($_FILES["imgPath"]["size"][$i] < 100000)     // Approx. 100kb files can be uploaded.
             && in_array($file_extension, $validextensions)) {
@@ -53,6 +54,8 @@ if (isset($_POST['submit'])) {
 
         $candidate = new Candidate();
         $candidate->updateCandidate($connection,$candNo,$fileName,$electionID,$memberID);
+
+        $target_path = "";
 
 
     }

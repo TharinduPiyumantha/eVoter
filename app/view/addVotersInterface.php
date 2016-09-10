@@ -4,6 +4,11 @@ include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
 
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $status = "Scheduled";
 ?>
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />

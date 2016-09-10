@@ -7,6 +7,13 @@
 */
 require_once('../model/election.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
@@ -32,6 +39,11 @@ $row = mysqli_fetch_row($queryData);
         }else{
 
         }
+
+    }
+</script>
+<script>
+    function changeStatus(electID){
 
     }
 </script>
@@ -179,6 +191,10 @@ $row = mysqli_fetch_row($queryData);
         <input type="button" value="Delete" class="btn btn-default" id="deleteElection" onClick="deleteElection('<?php echo $electionID ?>')" />
                 <?php }?>
         <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
+                <?php
+                if($status == "Finished"){?>
+                <input type="button" value="Finish" class="btn btn-default" id="ChangeStatus" onClick="document.location.href='../controller/changeCandidateStatus.php?electID=<?php echo $electionID;?>'"  />
+                <?php }?>
                 </div></div>
         <br><br>
 

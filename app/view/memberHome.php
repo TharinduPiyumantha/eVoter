@@ -3,6 +3,12 @@
 include "../templates/header.php";
 include "../controller/electionNo.php";
 require_once '../model/dbConfig.php';
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 //Edited by dilu
 $sql3 = "SELECT * FROM images inner join clubmember on images.image_owner_ID = clubmember.memberID where clubmember.user_group = '2' ORDER BY image_id DESC LIMIT 5" ;
@@ -10,6 +16,9 @@ $result3 = mysqli_query($con, $sql3);
 ?>
 
 <script src="../countdown.js"></script>
+<script type="text/javascript" src="harshen-jquery-countdownTimer-c9afa61/LIB/jquery-2.0.3.js"></script>
+<script type="text/javascript" src="harshen-jquery-countdownTimer-c9afa61/jquery.countdownTimer.js"></script>
+<link rel="stylesheet" type="text/css" href="harshen-jquery-countdownTimer-c9afa61/CSS/jquery.countdownTimer.css" />
 
 <body>
 
@@ -63,7 +72,7 @@ $result3 = mysqli_query($con, $sql3);
                 </div>
             </div>-->
 
-            <div class="col-lg-3 col-md-6">
+            <!--<div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
@@ -71,13 +80,13 @@ $result3 = mysqli_query($con, $sql3);
                                 <i class="fa fa-inbox fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo "$no_of_elections"?></div>
+                                <div class="huge"><?php /*echo "$no_of_elections"*/?></div>
                                 <div>Elections</div>
                             </div>
                         </div>
                     </div>
                     </div>
-                    <a href="viewElectionDetails.php?<?php  ?>">
+                    <a href="viewElectionDetails.php?<?php /* */?>">
                         <div class="panel-footer">
                             <span class="pull-left">View Election Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -85,16 +94,17 @@ $result3 = mysqli_query($con, $sql3);
                         </div>
                     </a>
                 </div>
-            </div>
+            </div>-->
 
-    <div class="col-lg-6 col-md-8">
-        <div class="panel panel-green">
+        <div class="col-lg-9 col-md-8">
+            <!-- <div class="panel panel-green">-->
             <div class="panel-heading">
                 <div class="row">
 
-                    <div class="col-xs-9 text-right">
+                    <div class="col-xs-10 text-right">
                         <div class="huge">
-                            <script type="application/javascript">
+
+                            <!--<script type="application/javascript">
 
                                 function doneHandler(result){
 
@@ -119,29 +129,100 @@ $result3 = mysqli_query($con, $sql3);
                                 //alert(sampleDate);
                                 myTime(1000);
 
+                            </script>-->
+
+                            <?php
+                            $currentdate = date("Y-m-d");
+                            $sql = "SELECT MIN(date),endTime,electionName,electionID FROM election WHERE date > '$currentdate'";
+                            $result = mysqli_query($con,$sql);
+                            while ($array = mysqli_fetch_row($result)){
+                                $date = $array[0];
+                                $time = $array[1];
+                                $name = $array[2];
+                            }
+                            //echo $date;
+                            $date_array = explode("-",$date);
+                            $var_day = $date_array[0];
+                            $var_month = $date_array[1];
+                            $var_year = $date_array[2];
+                            $new_date_format = "$var_day/$var_month/$var_year";
+                            $formatedDate = $new_date_format." ".$time;
+                            ?>
+
+                            <table style="border:0px;">
+                                <tr>
+                                    <!-- <td colspan="8"><?php /*echo $name; */?></span></td>-->
+                                    <td style="width: 600px"><span id="future_date"></span></td>
+                                </tr>
+                            </table>
+
+
+                            <script>
+                                $(function(){
+                                    var mydate = "<?php echo $formatedDate; ?>";
+                                    //alert(mydate);
+                                    $('#future_date').countdowntimer({
+
+                                        dateAndTime : mydate,
+                                        size : "lg",
+                                        regexpMatchFormat: "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",
+                                        regexpReplaceWith: "$1<sup class='displayformat'>days</sup> / $2<sup class='displayformat'>hours</sup> / $3<sup class='displayformat'>minutes</sup> / $4<sup class='displayformat'>seconds</sup>"
+                                    });
+                                });
                             </script>
+                            <style type="text/css">
+                                .displayformat {
+                                    font-size:18px;
+                                    font-style: italic;
+                                }
+                            </style>
+                            <?php
+                            //echo uniqid();
+                            //echo randString(5),PHP_EOL ;
+                            /*echo substr(md5(uniqid(mt_rand(), true)),0,6);*/
+                            $password = hash("sha256", "Hello");
+                            //echo $password;
+
+                            $codes = array('tn','us','fr');
+
+                            $names = array('Tunisia','United States','France');
+                            $join = array();
+
+                            foreach( $codes as $index => $code ) {
+                                $join[$code] = $names[$index];
+                                //echo $names[$index];
+                                //echo '\r \n';
+                                //echo $code;
+                            }
+                            //print_r ($join);
+                            ?>
+
                         </div>
                         <!--<div>New Tasks</div>-->
                     </div>
+                    <br><br><br><br>
+                    <label style="color: #004580;text-align: center;padding-left: 20px;"><?php echo $election_name ?> &nbsp; ,Date: <label style="color: #004580;text-align: center;padding-left: 20px;"><?php echo $election_dates ?> &nbsp; ,Time: <label style="color: #004580;text-align: center;padding-left: 20px;"><?php echo $election_start ?>&nbsp; ,End Time: <label style="color: #004580;text-align: center;padding-left: 20px;"><?php echo $election_ends ?>
+
                 </div>
             </div>
+            <!-- </div>-->
         </div>
-    </div>
 
-        </div>
+
+    </div>
         <!-- /.row -->
 
         <div class="row">
             <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-users fa-fw"></i>&nbsp; Candidates</h3>
+                        <h3 class="panel-title"><i class="fa fa-users fa-fw"></i>&nbsp; Candidates for &nbsp;<?php echo $election_name ?> </h3>
                     </div>
                     <div class="panel-body">
 
                         <?php
                         $currentDate = date("Y-m-d");
-                        $sql = "SELECT MIN(date),electionID FROM election WHERE date < '$currentDate'";
+                        $sql = "SELECT MIN(date),electionID FROM election WHERE date > '$currentDate'";
                         $result = mysqli_query($con, $sql);
 
                         while ($array = mysqli_fetch_row($result))
@@ -247,7 +328,7 @@ $result3 = mysqli_query($con, $sql3);
 
 
                         <div class="text-right">
-                            <a href="../newsfeed/member_newsfeed.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="../view/member_newsfeed.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

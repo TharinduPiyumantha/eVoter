@@ -12,12 +12,24 @@ require_once("../model/DB_1.php");
 require_once '../core/init.php';
 require_once("../model/ballotPaper.php");
 
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $db = new DB_1();
 $connection = $db->connectToDatabase();
 
 $electID="";
 if(isset($_GET["electID"])){
     $electID=$_GET["electID"];
+}
+
+if(isset($_GET["attempts"])){
+    $remain_attempt=$_GET["attempts"];
+    //echo $remain_attempt;
+}else{
+    $remain_attempt = 3;
 }
 ?>
 
@@ -49,6 +61,27 @@ if(isset($_GET["electID"])){
 </script>
 </head>
 <body>
+<?php
+$user = new User();
+$ballot = new BallotPaper();
+
+$userID = $user->data()->memberID;
+$attempts = $ballot->getUserSecurityPin($connection,$userID);
+$attempts1 = $attempts->fetch_row();
+$attempts2 = $attempts1[1];
+?>
+
+<script>
+    var remain_attempt ='<?php echo $remain_attempt; ?>';
+
+    if (remain_attempt == 0){
+        alert("sorry you have exceeded maximum number of attempts");
+        window.location = "home.php";
+    }
+    else if (remain_attempt < 3){
+        alert("Sorry the answers are incorrect. You have remaining : "+remain_attempt+ " attempts");
+    }
+</script>
 
 <div id="wrapper">
 
@@ -69,7 +102,7 @@ if(isset($_GET["electID"])){
             </div>
             <div id="answer-form">
                 <form class="form-horizontal" id="answerform" name="answerform" action="../controller/securityQuestions.php?electID=<?php echo $electID; ?>" role="form" method="post"
-                      style="margin-top: 30px;margin-right: 40px;">
+                      style="margin-top: 30px;margin-right: 40px;" onsubmit="return checkAttempts();">
 
                     <?php
                     $user = new User();

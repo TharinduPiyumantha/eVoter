@@ -6,6 +6,11 @@ require_once("../model/DB_1.php");
 require_once '../core/init.php';
 require_once("../model/ballotPaper.php");
 
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $db = new DB_1();
 $connection = $db->connectToDatabase();
 $electionID="";
@@ -49,10 +54,11 @@ $userID = $user->data()->memberID;
 $data = $ballot->getUserSecurityPin($connection,$userID);
 $data2= $data->fetch_row();
 $pin = $data2[0];
-echo $pin;
 
 ?>
 <script>
+    var count = 3;
+
     function checkSecurityPin(){
         var pin = '<?php echo $pin; ?>';
         var enteredPin = document.getElementById('pin').value;
@@ -60,7 +66,17 @@ echo $pin;
             return true;
         }
         else{
-            return false;
+            count -= 1;
+            if(count==0){
+                alert("sorry you have exceeded maximum number of attempts" );
+                window.location = "home.php";
+                return false;
+            }
+            else{
+                alert("The pin is incorrect. You have remaining :" + count + " attempts." );
+                return false;
+            }
+
         }
     }
 

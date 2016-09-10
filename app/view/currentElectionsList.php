@@ -9,9 +9,13 @@
 include "../templates/header.php";
 require_once("../model/election.php");
 require_once("../model/DB_1.php");
+require_once("../core/init.php");
 
 $db = new DB_1();
 $connection = $db->connectToDatabase();
+
+$user = new User();
+$userID = $user->data()->memberID;
 
 ?>
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
@@ -77,7 +81,8 @@ $connection = $db->connectToDatabase();
                 //echo $currentTime;
 
                 $election = new Election();
-                $electionListArr = $election->getElectionList($connection);
+                $electionListArr = $election->haveElectDetails($connection,$userID);
+                if(sizeof($electionListArr) > 0){
 
                 while($data1 = $electionListArr -> fetch_row()){
                     if(($data1[2] == $currentDate) && ($data1[3]<=$currentTime) &&  ($data1[4]>=$currentTime) ){
@@ -90,7 +95,7 @@ $connection = $db->connectToDatabase();
                             <td class="tableData" ><?php echo $data1[4] ?></td>
                         </tr>
                     <?php }
-                } ?>
+                }} ?>
                 </tbody>
             </table>
 

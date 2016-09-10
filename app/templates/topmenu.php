@@ -62,7 +62,7 @@ require_once '../core/init.php';
         <ul class="dropdown-menu">
 
             <li>
-                <a href="../view/editMyProfile.php"><i class="fa fa-fw fa-user"></i> My Profile</a>
+                <a href="../view/editMyProfileInterface.php"><i class="fa fa-fw fa-user"></i> My Profile</a>
             </li>
             <li>
                 <a href="../view/memberview.php"><i class="fa fa-fw fa-users"></i> Members </a>

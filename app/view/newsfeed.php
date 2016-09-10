@@ -6,6 +6,12 @@
  * Time: 11:52
  */
 include "../templates/header.php";
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $mysqli = new mysqli("localhost", "root", "", "evoter");
 

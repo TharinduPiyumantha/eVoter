@@ -1,4 +1,11 @@
-<?php include "../templates/header.php";?>
+<?php include "../templates/header.php";
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+?>
 <script src="../../public/js/signup.js"></script>
 
 </head>

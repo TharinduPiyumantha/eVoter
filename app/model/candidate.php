@@ -101,4 +101,10 @@ class Candidate{
     public function getCandidateNoOfNotNull($connect, $electionID){
         return (new Sql)->getCandidateNumbersOfNotNull($connect, $electionID);
     }
+    public function getCandidateForStatus($connect, $electionID){
+        return (new Sql)->selectMembers($connect,$electionID);
+    }
+    public function getNoOfElectionsPerCandidate($connect, $userID){
+        return (new Sql)->getNoOfElectionsPerCandidate($connect, $userID);
+    }
 }

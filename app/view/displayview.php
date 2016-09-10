@@ -9,6 +9,12 @@
  include "../templates/header.php";
  include "../controller/userRequest.php";
  require_once '../model/dbConfig.php';
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 ?>
 
 <script src="../../public/js/userRequest.js"></script>

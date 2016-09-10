@@ -4,6 +4,11 @@ include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
 
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];

@@ -3,6 +3,25 @@ require_once('../core/init.php');
 include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
+require_once("../model/election.php");
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
+$election = new Election();
+$db = new DB_1();
+$connect = $db->connectToDatabase();
+
+$electionID="";
+if(isset($_GET["electID"])){
+    $electionID=$_GET["electID"];
+}
+$electDetailsArr = $election->getElectionDetails($connect,$electionID);
+$electDetails = $electDetailsArr->fetch_row();
+$noOfVotes = $electDetails[4];
+
 ?>
 
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
@@ -32,8 +51,10 @@ require_once("../model/DB_1.php");
 <script>
     function sendNotifications() {
         var chckBoxCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        var noOfVotes = <?php echo $noOfVotes; ?>;
+        var noOfVotesToMsg = noOfVotes+1;
 
-        if(chckBoxCount >= 2) {
+        if(chckBoxCount > noOfVotes) {
             var r = confirm("Are You Sure You Want To Send Emails and SMSs To The Selected Candidates?");
 
             if (r == true) {
@@ -64,7 +85,7 @@ require_once("../model/DB_1.php");
 
             }
         }else{
-            alert("Please Select Appropriate Number Of Candidates To Send Notifications!");
+            alert("Please Select at least "+noOfVotesToMsg+" candidates for this election!");
         }
     }
 
@@ -74,9 +95,11 @@ require_once("../model/DB_1.php");
     function validateNoOfCandidates(){
 
         var checkboxes = $("[type='checkbox']:checked").length;
+        var noOfVotes = <?php echo $noOfVotes; ?>;
+        var noOfVotesToMsg = noOfVotes+1;
 
-        if((checkboxes == 0) ||(checkboxes < 2) ){
-            alert("Number of candidates per election should be at least 2! Please select at least 2 candidates.");
+        if((checkboxes == 0) ||(checkboxes <= noOfVotes) ){
+            alert("Number of candidates for this election should be at least "+noOfVotesToMsg+ ". Please select at least "+ noOfVotesToMsg +" candidates.");
             return false;
 
         }else {

@@ -42,6 +42,9 @@ if(!empty($_POST['check_list'])) {
         echo $memberID;
         $candidate = new Candidate();
         $candidate->insertCandidateIntoDB($connection,$electionID,$memberID);
+
+        $sql = "update clubmember set status='candidate' where memberID='$memberID'";
+        mysqli_query($connection,$sql);
     }
 }
 header("location: ../view/newCandidateList.php?electID=".$electionID);

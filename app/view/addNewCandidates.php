@@ -9,11 +9,28 @@ require_once('../core/init.php');
 include "../templates/header.php";
 require_once("../model/member.php");
 require_once("../model/DB_1.php");
+require_once("../model/election.php");
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
+$election = new Election();
+$db = new DB_1();
+$connect = $db->connectToDatabase();
 
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
 }
+$electDetailsArr = $election->getElectionDetails($connect,$electionID);
+$electDetails = $electDetailsArr->fetch_row();
+$noOfVotesInDb = $electDetails[4];
+
+$candCountArr = $election->getNoOfCandidates($connect,$electionID);
+$candCount = $candCountArr->fetch_row();
+$existingCandCount = $candCount[0];
 ?>
 <link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -42,39 +59,49 @@ if(isset($_GET["electID"])){
 <script>
     function sendNotifications() {
         var chckBoxCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        var noOfVotesInDB = <?php echo $noOfVotesInDb; ?>;
+        var existingCands = <?php echo $existingCandCount; ?>;
+        var totalSelectedCand = chckBoxCount+existingCands;
+        var moreToAdd = noOfVotesInDB - existingCands + 1;
 
-        if(chckBoxCount >= 1) {
-            var r = confirm("Are You Sure You Want To Send Emails and SMSs To The Selected Candidates?");
+        if(totalSelectedCand > noOfVotesInDB) {
+            if(chckBoxCount == 0){
+                alert("Please Select Candidates To Send Emails!");
+                return false;
+            }else {
+                var r = confirm("Are You Sure You Want To Send Emails and SMSs To The Selected "+chckBoxCount+" Candidates?");
 
-            if (r == true) {
-                var table = document.getElementById("memberTable");
-                var rowCount = table.rows.length;
-                for (var i = 0; i < rowCount; i++) {
-                    var row = table.rows[i];
-                    var email = row.cells[5].childNodes[0].name;
-                    var mobile = row.cells[6].childNodes[0].name;
-                    var eID =  <?php echo $_GET["electID"];?>;
-                    var type = "candidate";
-                    var chkbox = row.cells[0].childNodes[0];
+                if (r == true) {
+                    var table = document.getElementById("memberTable");
+                    var rowCount = table.rows.length;
+                    for (var i = 0; i < rowCount; i++) {
+                        var row = table.rows[i];
+                        var email = row.cells[5].childNodes[0].name;
+                        var mobile = row.cells[6].childNodes[0].name;
+                        var eID =  <?php echo $_GET["electID"];?>;
+                        var type = "candidate";
+                        var chkbox = row.cells[0].childNodes[0];
 
-                    if (null != chkbox && true == chkbox.checked) {
-                        $.post("../controller/notiToCandidatesAndVoters.php",
-                            {
-                                emailAdd: email,
-                                mobileNo: mobile,
-                                electID:eID,
-                                memType:type
-                            }
-                        );
+                        if (null != chkbox && true == chkbox.checked) {
+                            $.post("../controller/notiToCandidatesAndVoters.php",
+                                {
+                                    emailAdd: email,
+                                    mobileNo: mobile,
+                                    electID: eID,
+                                    memType: type
+                                }
+                            );
+                        }
                     }
+                    alert("Notifications are sent successfully!");
+
                 }
-                alert("Notifications are sent successfully!");
-
-            } else {
-
+                else {
+                    return false;
+                }
             }
         }else{
-            alert("Please Select Appropriate Number Of Candidates To Send Notifications!");
+            alert("Please Select At Least "+moreToAdd+" More Candidates To This Election!");
         }
     }
 
@@ -83,14 +110,28 @@ if(isset($_GET["electID"])){
     function validateNoOfCandidates(){
 
         var checkboxes = $("[type='checkbox']:checked").length;
+        var noOfVotesInDB = <?php echo $noOfVotesInDb; ?>;
+        var existingCands = <?php echo $existingCandCount; ?>;
+        var totalSelectedCand = checkboxes+existingCands;
+        var moreToAdd = noOfVotesInDB - existingCands + 1;
 
-        if(checkboxes == 0){
-            alert("Please Select Candidates!");
+        if(totalSelectedCand > noOfVotesInDB){
+            if(checkboxes == 0){
+                alert("Please Select Candidates To Add!");
+                return false;
+            }else{
+                var r = confirm("Are You Sure You Want To Add The Selected "+checkboxes+" Candidates?");
+                if (r == true){
+                    alert("Candidates are added successfully!");
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        else {
+            alert("Please select at least "+moreToAdd+" more candidates for the election");
             return false;
-
-        }else {
-            alert("Candidates are added successfully!");
-            return true;
         }
     }
 </script>

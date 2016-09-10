@@ -8,6 +8,13 @@
 
 include "../templates/header.php";
 require_once '../model/dbConfig.php';
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $user_nic = $_GET['value'];
 
 $sql = "SELECT * FROM clubmember WHERE memberID = '$user_nic' ";

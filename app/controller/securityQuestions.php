@@ -63,26 +63,26 @@ $attempts2 = $attempts1[1];
 if(sizeof($result)>0){
     /*alert*/
     $new_attempts = $attempts2+1;
-    if($new_attempts>3){
+    if($new_attempts==3){
         $x = 0;
         $ballot->updateAttempts($connect,$userID,$x);
-        header("location: ../view/memberHome.php");
+        //header("location: ../view/memberHome.php");
 
     }
     else{
-
         $ballot->updateAttempts($connect,$userID,$new_attempts);
-
-        header("location: ../view/ballotSecurityQuestions.php?electID=".$electionID);
     }
+    $temp = 3 - $new_attempts;
+    header("location: ../view/ballotSecurityQuestions.php?electID=".$electionID."&attempts=".$temp);
+
 
 }
 else{
     $x = 0;
     $ballot->updateAttempts($connect,$userID,$x);
     $ballot->updateSecurityPin($connect,$userID,$pin);
-    //$emailObject->sendMail($userEmail,$subject,$message);
-    //$sms->sendSMS($message,$userMobile);
+    $emailObject->sendMail($userEmail,$subject,$message);
+    $sms->sendSMS($message,$userMobile);
     header("location: ../view/ballotSecurityPin.php?electID=".$electionID);
 }
 ?>

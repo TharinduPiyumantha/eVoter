@@ -20,10 +20,10 @@ require_once '../core/init.php';
                             class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="demo1" class="collapse">
                         <li>
-                            <a href="memberManage.php"><i class="fa fa-fw fa-user"></i>&nbsp;Member Manage</a>
+                            <a href="../view/memberManage.php"><i class="fa fa-fw fa-user"></i>&nbsp;Member Manage</a>
                         </li>
                         <li>
-                            <a href="selectAdmin.php"><i class="fa fa-fw fa-user"></i>&nbsp;Admin Manage</a>
+                            <a href="../view/selectAdmin.php"><i class="fa fa-fw fa-user"></i>&nbsp;Admin Manage</a>
                         </li>
 
                     </ul>
@@ -44,8 +44,16 @@ require_once '../core/init.php';
                     </ul>
                 </li>
                 <li>
-                    <a href="../view/currentElectionsList.php"><i class="fa fa-fw fa-check-square-o"></i>&nbsp;Vote</a>
+                    <a href="../view/newsfeed_index.php"><i class="fa fa-fw fa-newspaper-o"></i>&nbsp;News Feed</a>
                 </li>
+                <li>
+                    <a href="../view/campaign_index.php"><i class="fa fa-fw fa-table"></i>&nbsp;Campaign</a>
+                </li>
+
+                <li>
+                    <a href="../view/finishedElecList.php"><i class="fa fa-fw fa-area-chart"></i>&nbsp; Elections Results</a>
+                </li>
+
             <?php }else {?>
                 <li>
                     <a href="memberHome.php"><i class="fa fa-fw fa-dashboard"></i>&nbsp;Home Page</a>
@@ -53,20 +61,22 @@ require_once '../core/init.php';
                 <li>
                     <a href="memberview.php"><i class="fa fa-fw fa-user"></i>&nbsp;Members</a>
                 </li>
-            <?php } ?>
+
 
             <li>
-                <a href="../view/newsfeed.php"><i class="fa fa-fw fa-newspaper-o"></i>&nbsp;News Feed</a>
+                <a href="../view/member_newsfeed.php"><i class="fa fa-fw fa-newspaper-o"></i>&nbsp;News Feed</a>
             </li>
             <li>
-                <a href="tables.html"><i class="fa fa-fw fa-table"></i>&nbsp;Campaign</a>
+                <a href="../view/campaign_index.php"><i class="fa fa-fw fa-table"></i>&nbsp;Campaign</a>
             </li>
+
             <li>
-                <a href="../view/currentElectionsList.php"><i class="fa fa-fw fa-table"></i>Vote</a>
+                <a href="../view/currentElectionsList.php"><i class="fa fa-fw fa-check-square-o"></i>&nbsp;Vote</a>
             </li>
             <li>
                 <a href="../view/finishedElecList.php"><i class="fa fa-fw fa-area-chart"></i>&nbsp; Elections Results</a>
             </li>
+            <?php } ?>
         </ul>
 
 

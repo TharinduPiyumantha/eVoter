@@ -3,6 +3,12 @@
 require_once('../../public/fpdf181/diag.php');
 require_once("../model/election.php");
 include("../model/DB_1.php");
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $db = new DB_1();
 $connect = $db->connectToDatabase();

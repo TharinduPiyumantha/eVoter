@@ -9,6 +9,12 @@ include "../templates/header.php";
 require_once("../model/election.php");
 require_once("../model/DB_1.php");
 include("../../public/php-wrapper/wrappers 2/php-wrapper/fusioncharts.php");
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $db = new DB_1();
 $connect = $db->connectToDatabase();
@@ -80,45 +86,45 @@ $wonPersonName = $wonPersonDetailsArr[1];
         <div>
             <table width="35%" cellpadding="5" style="display: inline-block;" class="table-striped">
                 <tbody>
-                <tr>
-                    <th width="25%" scope="row">Election Name&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40" width="50%"><?php echo $electionName; ?></td>
-                </tr>
+                    <tr>
+                        <th width="25%" scope="row">Election Name&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40" width="50%"><?php echo $electionName; ?></td>
+                    </tr>
 
-                <tr bgcolor="#e6ecff">
-                    <th scope="row">Date Held&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40"><?php echo $date; ?></td>
-                </tr>
+                    <tr bgcolor="#e6ecff">
+                        <th scope="row">Date Held&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40"><?php echo $date; ?></td>
+                    </tr>
 
-                <tr>
-                    <th scope="row">Winner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40"><?php echo $wonPersonName; ?></td>
-                </tr>
+                    <tr>
+                        <th scope="row">Winner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40"><?php echo $wonPersonName; ?></td>
+                    </tr>
 
                 </tbody>
             </table>
 
             <table width="40%" cellpadding="5" style="display: inline-block;padding-left: 80px;" class="table-striped">
                 <tbody>
-                <tr>
-                    <th width="15%" scope="row">No Of Candidates&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40" width="30%"><?php echo $noOfQualifiedCandidates ?></td>
-                </tr>
+                    <tr>
+                        <th width="15%" scope="row">No Of Candidates&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40" width="30%"><?php echo $noOfQualifiedCandidates ?></td>
+                    </tr>
 
-                <tr bgcolor="#e6ecff">
-                    <th scope="row">No Of Qualified Voters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40"><?php echo $noOfQualifiedVoters ?></td>
-                </tr>
+                    <tr bgcolor="#e6ecff">
+                        <th scope="row">No Of Qualified Voters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40"><?php echo $noOfQualifiedVoters ?></td>
+                    </tr>
 
-                <tr>
-                    <th scope="row">No Of Casted Voters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
-                    <td height="40"><?php echo $noOfCastedVoters ?></td>
-                </tr>
+                    <tr>
+                        <th scope="row">No Of Casted Voters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</th>
+                        <td height="40"><?php echo $noOfCastedVoters ?></td>
+                    </tr>
 
                 </tbody>
             </table>
 
-            <input type="button" class="btn btn-default btn-primary" value="View PDF" onclick="window.open('reportPDF.php?electID=<?php echo $electionID?>')"/><br><br><br>
+            <!---<input type="button" class="btn btn-default btn-primary" value="View PDF" onclick="window.open('reportPDF.php?electID=<?php echo $electionID?>')"/><br><br><br>--->
 
         </div>
 
@@ -183,7 +189,7 @@ $wonPersonName = $wonPersonDetailsArr[1];
 
             /*Create an object for the column chart using the FusionCharts PHP class constructor. Syntax for the constructor is ` FusionCharts("type of chart", "unique chart id", width of the chart, height of the chart, "div id to render the chart", "data format", "data source")`. Because we are using JSON data to render the chart, the data format will be `json`. The variable `$jsonEncodeData` holds all the JSON data for the chart, and will be passed as the value for the data source parameter of the constructor.*/
 
-            $columnChart = new FusionCharts("bar2D", "myFirstChart" , 600, 300, "chart-1", "json", $jsonEncodedData);
+            $columnChart = new FusionCharts("bar2D", "myFirstChart" , 500, 300, "chart-1", "json", $jsonEncodedData);
 
             // Render the chart
             $columnChart->render();
@@ -193,49 +199,49 @@ $wonPersonName = $wonPersonDetailsArr[1];
         <div style="display: inline-block;">
             <table width="400" cellpadding="5" class="table-striped" border="#0033cc">
                 <thead>
-                <tr bgcolor="#99b3ff" height="60">
-                    <th align="center">Candidate</th>
-                    <th align="center">Candidate No</th>
-                    <th align="center">Symbol Image</th>
-                    <th align="center">No Of Votes</th>
+                    <tr bgcolor="#99b3ff" height="60">
+                        <th align="center">Candidate</th>
+                        <th align="center">Candidate No</th>
+                        <th align="center">Symbol Image</th>
+                        <th align="center">No Of Votes</th>
 
-                </tr>
+                    </tr>
                 </thead>
 
                 <tbody>
-                <?php
+                    <?php
 
-                $candNoArr = $election->getCandidateNumbers($connect,$electionID);
+                    $candNoArr = $election->getCandidateNumbers($connect,$electionID);
 
-                while($candNo = $candNoArr->fetch_row()){
-                    $candVoteCountArray = $election->getVotesCountPerCandidate($connect,$electionID,$candNo[0]);
-                    $candVoteCount = $candVoteCountArray->fetch_row();
-                    $voteCount = $candVoteCount[0];
+                    while($candNo = $candNoArr->fetch_row()){
+                        $candVoteCountArray = $election->getVotesCountPerCandidate($connect,$electionID,$candNo[0]);
+                        $candVoteCount = $candVoteCountArray->fetch_row();
+                        $voteCount = $candVoteCount[0];
 
-                    $candDetailsArray = $election->getCandidatesDetailsForResults($connect,$electionID,$candNo[0]);
-                    $details = $candDetailsArray->fetch_row();
-                    $name = $details[0];
-                    $candNo = $details[1];
-                    $symbol = $details[2];
+                        $candDetailsArray = $election->getCandidatesDetailsForResults($connect,$electionID,$candNo[0]);
+                        $details = $candDetailsArray->fetch_row();
+                        $name = $details[0];
+                        $candNo = $details[1];
+                        $symbol = $details[2];
+                        ?>
+                        <tr class="tableRow" id = <?php echo $candNo[0] ?>>
+                            <td class="tableData" height="60" align="center"><?php echo $name ?></td>
+                            <td class="tableData" align="center"><?php echo $candNo ?></td>
+                            <td class="tableData" align="center"><img src="<?php echo $symbol?>" width="50" height="50"></td>
+                            <td class="tableData" align="center"><?php echo $voteCount ?></td>
+                        </tr>
+
+                        <?php
+                    }
                     ?>
-                    <tr class="tableRow" id = <?php echo $candNo[0] ?>>
-                        <td class="tableData" height="60" align="center"><?php echo $name ?></td>
-                        <td class="tableData" align="center"><?php echo $candNo ?></td>
-                        <td class="tableData" align="center"><img src="<?php echo $symbol?>" width="50" height="50"></td>
-                        <td class="tableData" align="center"><?php echo $voteCount ?></td>
-                    </tr>
-
-                <?php
-                }
-                ?>
 
                 </tbody>
             </table>
         </div>
 
         <div id="chart-1" style="display: inline-block;padding-left: 80px;"><!-- Fusion Charts will render here--></div>
+        </div>
     </div>
-</div>
 </body>
 </html>
 

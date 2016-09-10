@@ -164,9 +164,6 @@ class Election{
     public function getCandNameAndVotes($connection,$electID){
         return (new Sql)->getNameAndVotes($connection,$electID);
     }
-
-    //NEWW sunday
-
     public function getCandidateNumbers($connection,$electID){
         return (new Sql)->getCandidateNoForElection($connection,$electID);
     }
@@ -175,6 +172,15 @@ class Election{
     }
     public function getCandidatesDetailsForResults($connection,$electID,$candNo){
         return (new Sql)->getCandDetailsForResults($connection,$electID,$candNo);
+    }
+    public function getNoOfCandidates($connection,$electID){
+        return (new Sql)->countNoOfCandidatesInElection($connection,$electID);
+    }
+    public function electionDetails($connection,$userID){
+        return (new Sql)->getElectionDetailsCandidates($connection,$userID);
+    }
+    public function haveElectDetails($connection,$userID){
+        return (new Sql)->loadHaveElections($connection,$userID);
     }
 
 

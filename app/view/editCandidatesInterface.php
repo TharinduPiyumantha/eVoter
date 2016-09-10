@@ -10,6 +10,13 @@ include "../templates/header.php";
 
 require_once('../model/election.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
 $electionID="";
 if(isset($_GET["electID"])){
     $electionID=$_GET["electID"];
@@ -85,6 +92,33 @@ $election = new Election();
     }
 
 </script>
+<script>
+    function validateTable(){
+        var tableLength = document.getElementById("memberTable").rows.length - 1;
+        var i;
+        var resultBool = true;
+        var eID = '<?php echo $electionID; ?>';
+
+
+        for(i=1;i<=tableLength;i++){
+            var candNo = document.getElementById(i+"candNo").value;
+            var img = document.getElementById(i+"img").value;
+
+            if(candNo == '0' || img == '' ){
+                resultBool = resultBool && false;
+            }
+            else{
+                resultBool = resultBool && true;
+            }
+        }
+        if(resultBool == false){
+            window.location = "newCandidateList.php?electID="+ eID ;
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>
 
 </head>
 <body>
@@ -110,7 +144,7 @@ $election = new Election();
             </div>
             <br>
 
-            <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>">
+            <form class="form-horizontal" role="form" method="post" action="editVotersInterface.php?electID=<?php echo $electionID;?>" onsubmit="return validateTable();">
 
                     <input type="button" id="add" value="Add More Candidates"  class="btn btn-default btn-primary" onClick="location.href = 'addNewCandidates.php?electID=<?php echo $electionID;?>'" style="margin-top: -20;"/>
 
@@ -127,6 +161,7 @@ $election = new Election();
                         </thead>
                         <tbody id="dataTable">
                         <?php
+                        $i =1;
                         $candidateList= $election->getCandidateDetails($connection,$electionID);
                         while($data1 = $candidateList -> fetch_row()) {
                         ?>
@@ -135,14 +170,17 @@ $election = new Election();
                             <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[0] ?></td>
                             <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[1] ?></td>
                             <td class="tableData" name=<?php echo $data1[0] ?>><?php echo $data1[2] ?></td>
-                            <input type="hidden" name="member[0][clubPost]" value="<?php echo $data1[2] ?>"/>
+                            <input type="hidden" id='<?php echo $i ."candNo"?>' name="candNo" value="<?php echo $data1[2] ?>"/>
                             <td class="tableData" name=<?php echo $data1[0] ?>><img src="<?php echo $data1[3]?>" width="50" height="50"></td>
-                            <?php } ?>
+                            <input type="hidden" id='<?php echo $i ."img"?>' name="img" value="<?php echo $data1[3] ?>"/>
+                            <?php
+                                $i = $i+1;
+                            } ?>
                         </tbody>
                     </table><br><br>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-8 col-sm-3">
+                        <div class="col-sm-offset-8 col-sm-5">
                             <input type="button" value="<<< Back" class="btn btn-default" id="backToElection" onClick="document.location.href='editElectionEventInterface.php?electID=<?php echo $_GET["electID"];?>'" />
                             <input type="button" value="Cancel" class="btn btn-default" id="cancelElection" onClick="document.location.href='electionList.php'" />
                             <input name="submit" type="submit" class="btn btn-default btn-primary" id="addVotersBtn" value="Next>>>"/>

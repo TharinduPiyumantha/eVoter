@@ -1,5 +1,11 @@
 <?php include "../templates/header.php";
-require_once('../core/init.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
+
     $currentDate = date("Y-m-d");
     //echo $currentDate;
     date_default_timezone_set("Asia/Colombo");

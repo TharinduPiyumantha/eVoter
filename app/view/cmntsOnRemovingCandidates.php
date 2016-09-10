@@ -5,12 +5,17 @@
  * Date: 8/4/2016
  * Time: 12:37 AM
  */
-require_once('../core/init.php');
 include "../templates/header.php";
 
 require_once('../model/election.php');
 require_once('../model/member.php');
 require_once('../model/DB_1.php');
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 
 $electionID="";
 if(isset($_GET["electID"])){
@@ -134,21 +139,21 @@ $data = json_decode($_GET['memberIDs']);
                     $memberID = "";
                     $i =1;
                     if(!empty($data)) {
-                        foreach ($data as $mbrID) {
-                            $memberID = $mbrID;
-                            $array = $member->getMemberName($connection,$memberID);
-                            $data = $array->fetch_row();
-                            $mmbrName = $data[0];
-                            ?>
-                            <tr>
-                                <td style="width:10px"><input type="text" id='<?php echo $i ."memID"?>' name= "memberID"  value="<?php echo $memberID?>" readonly style="border:none;width: 30%"/></td>
-                                <td style="width:20px"><input type="text" id='<?php echo $i ."memName"?>' name= "memberName" value="<?php echo $mmbrName?>" readonly style="border:none"/></td>
-                                <td style="width:50px"><input type="text" id='<?php echo $i ."comment"?>' name= 'comment' required style="width: 100%"/></td>
-                            </tr>
-                            <?php
-                            $i = $i+1;
+                    foreach ($data as $mbrID) {
+                        $memberID = $mbrID;
+                        $array = $member->getMemberName($connection,$memberID);
+                        $data = $array->fetch_row();
+                        $mmbrName = $data[0];
+                        ?>
+                        <tr>
+                            <td style="width:10px"><input type="text" id='<?php echo $i ."memID"?>' name= "memberID"  value="<?php echo $memberID?>" readonly style="border:none;width: 30%"/></td>
+                            <td style="width:20px"><input type="text" id='<?php echo $i ."memName"?>' name= "memberName" value="<?php echo $mmbrName?>" readonly style="border:none"/></td>
+                            <td style="width:50px"><input type="text" id='<?php echo $i ."comment"?>' name= 'comment' required style="width: 100%"/></td>
+                        </tr>
+                        <?php
+                        $i = $i+1;
 
-                        }}
+                    }}
                     ?>
                     </tbody>
                 </table>

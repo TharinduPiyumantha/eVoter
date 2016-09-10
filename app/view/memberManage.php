@@ -9,6 +9,12 @@
 include "../templates/header.php";
 require_once '../model/dbConfig.php';
 require_once("../model/DB_1.php");
+require_once '../core/init.php';
+
+$user = new User();
+if (!$user->isLoggedIn()){
+    header('Location: ../../index.php');
+}
 ?>
 
 <script type="text/JavaScript">
@@ -86,7 +92,7 @@ require_once("../model/DB_1.php");
             <?php
             $user = new User();
             $current_user = $user->data()->memberID;
-            $sql = "SELECT * FROM clubmember WHERE status = 'registered' AND memberID != '$current_user'";
+            $sql = "SELECT * FROM clubmember WHERE status = 'registered' OR status = 'candidate' AND memberID != '$current_user'  ";
             $result = mysqli_query($con, $sql);
             ?>
 

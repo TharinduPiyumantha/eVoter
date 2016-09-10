@@ -31,7 +31,7 @@ class Sql
 
     }
     public function selectMembersForElection($connect){
-        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber FROM clubmember WHERE status=\"registered\" AND user_group!='2'");
+        $queryToSelectMembersForElection= mysqli_query($connect, "SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber FROM clubmember WHERE (status=\"registered\" OR status=\"candidate\") AND user_group!='2'");
         return $queryToSelectMembersForElection;
     }
     public function changeMemberStatus($connect,$status,$memberID){
@@ -71,7 +71,7 @@ class Sql
         $queryToDeleteVoters = mysqli_query($connect,"DELETE FROM memberelectiondetails WHERE electionID='$electionID' AND memberID='$memberID'");
     }
     public function getRegisteredMembersNotInElection($connect,$electionID){
-        $queryToGetRegisteredMembersNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where status='registered' AND user_group!='2' AND memberID NOT IN (SELECT memberID FROM memberelectiondetails WHERE electionID='$electionID')");
+        $queryToGetRegisteredMembersNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where (status='registered' OR status='candidate') AND user_group!='2' AND memberID NOT IN (SELECT memberID FROM memberelectiondetails WHERE electionID='$electionID')");
         return $queryToGetRegisteredMembersNotInElection;
     }
     public function deleteElectionAll($connect,$electionID){
@@ -87,7 +87,7 @@ class Sql
         $queryToUpdateCandDetails = mysqli_query($connect,"update candidate set candidateNo='$candNo',symbolImage='$symbolImage' where electionID='$electionID' AND memberID='$membID' ");
     }
     public function getCandidatesNotInElection($connect,$electionID){
-        $queryToGetCandidatesNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where status='registered' AND user_group!='2' AND memberID NOT IN (SELECT memberID FROM candidate WHERE electionID='$electionID')");
+        $queryToGetCandidatesNotInElection = mysqli_query($connect,"SELECT memberID,name,clubPost,dateofjoin,email,mobileNumber from clubmember where (status='registered' OR status='candidate') AND user_group!='2' AND memberID NOT IN (SELECT memberID FROM candidate WHERE electionID='$electionID')");
         return $queryToGetCandidatesNotInElection;
     }
     public function getCandWithoutSymbol($connect,$electionID){
@@ -196,8 +196,28 @@ class Sql
         mysqli_query($connect, "Update securitypin set attempts='$attempts' WHERE memberID='$userID'");
     }
 
-
-
-
+	public function countNoOfCandidatesInElection($connect,$electID){
+        $count = mysqli_query($connect, "SELECT COUNT(candidateNo) FROM candidate WHERE electionID='$electID'");
+        return $count;
+    }
+    public function changeStatusToCandidate($connect,$userID){
+        mysqli_query($connect, "Update clubmember set status='candidate' WHERE memberID='$userID'");
+    }
+    public function selectMembers($connect,$electID){
+        $answer = mysqli_query($connect, "SELECT memberID FROM candidate WHERE electionID='$electID'");
+        return $answer;
+    }
+    public function getNoOfElectionsPerCandidate($connect,$userID){
+        $noOfElections= mysqli_query($connect, "SELECT electionID FROM candidate WHERE memberID='$userID'");
+        return $noOfElections;
+    }
+    public function getElectionDetailsCandidates($connect,$usrID){
+        $electDetails = mysqli_query($connect, "SELECT election.date,election.startTime,election.endTime FROM election,candidate WHERE candidate.memberID='$usrID' AND candidate.electionID=election.electionID");
+        return $electDetails;
+    }
+    public function loadHaveElections($connect,$usrID){
+        $electHaveDetails = mysqli_query($connect, "SELECT election.electionID,election.electionName,election.date,election.startTime,election.endTime FROM election,memberelectiondetails,clubmember WHERE memberelectiondetails.votingStatus !='Voted' AND memberelectiondetails.electionID = election.electionID AND clubmember.memberID = '$usrID' AND memberelectiondetails.memberID=clubmember.memberID ORDER BY date DESC");
+        return $electHaveDetails;
+    }
 }
 ?>
